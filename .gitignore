@@ -1,0 +1,11 @@
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+lttrs.iml
+
+# IDE
+.idea/
+.vscode/
+
+# MacOS
+.DS_Store
