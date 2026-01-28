@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        Scene scene = new Scene(new Pane(), 1200, 800);
+        Scene scene = new Scene(new Pane(), 1400, 800);
         stage.setTitle("LTTRS");
         stage.setScene(scene);
         stage.setResizable(false);

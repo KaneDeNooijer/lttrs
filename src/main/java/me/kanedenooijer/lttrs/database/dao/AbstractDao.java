@@ -1,0 +1,147 @@
+package me.kanedenooijer.lttrs.database.dao;
+
+import java.lang.reflect.RecordComponent;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Abstract Data Access Object providing basic CRUD operations.
+ *
+ * @param <T> the type of the entity
+ */
+public abstract class AbstractDao<T extends Record> {
+
+    /**
+     * The database connection.
+     */
+    protected final Connection connection;
+
+    /**
+     * The name of the database table.
+     */
+    private final String tableName;
+
+    private final Class<T> recordClass;
+
+    protected AbstractDao(Connection connection, Class<T> recordClass, String tableName) {
+        this.connection = connection;
+        this.recordClass = recordClass;
+        this.tableName = tableName;
+    }
+
+    /**
+     * Finds an entity by its ID.
+     *
+     * @param id the ID of the entity
+     * @return an Optional containing the entity if found, or empty if not found
+     * @throws RuntimeException if a database access error occurs
+     */
+    public Optional<T> findById(int id) throws RuntimeException {
+        String query = String.format("SELECT * FROM %s WHERE id = ?", tableName);
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setObject(1, id);
+
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    return Optional.of(mapResultSetToEntity(result));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Error finding entity in %s: %s", tableName, e));
+        }
+
+        return Optional.empty();
+    }
+
+    /**
+     * Finds all entities in the table.
+     *
+     * @return a list of all entities in the table
+     * @throws RuntimeException if a database access error occurs
+     */
+    public List<T> findAll() throws RuntimeException {
+        List<T> results = new ArrayList<>();
+        String query = String.format("SELECT * FROM %s", tableName);
+
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                results.add(mapResultSetToEntity(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Error executing findAll on %s: %s", tableName, e));
+        }
+
+        return results;
+    }
+
+    /**
+     * Saves a new entity to the database.
+     *
+     * @param entity the entity to save
+     * @return an Optional containing the saved entity, or empty if the save failed
+     * @throws RuntimeException if a database access error occurs
+     */
+    public abstract T save(T entity) throws RuntimeException;
+
+    /**
+     * Updates an existing entity in the database.
+     *
+     * @param entity the entity to update
+     * @throws RuntimeException if a database access error occurs
+     */
+    public abstract void update(T entity) throws RuntimeException;
+
+    /**
+     * Deletes an entity by its ID.
+     *
+     * @param id the ID of the entity to delete
+     * @throws RuntimeException if a database access error occurs
+     */
+    public void delete(int id) throws RuntimeException {
+        String query = String.format("DELETE FROM %s WHERE id = ?", tableName);
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setObject(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Error deleting from %s: %s", tableName, e));
+        }
+    }
+
+    /**
+     * Maps a ResultSet row to an entity of type T using reflection.
+     *
+     * @param resultSet the ResultSet to map
+     * @return the mapped entity
+     * @throws RuntimeException if a database access error occurs
+     */
+    private T mapResultSetToEntity(ResultSet resultSet) throws RuntimeException {
+        try {
+            var components = recordClass.getRecordComponents();
+            Object[] values = new Object[components.length];
+
+            for (int i = 0; i < components.length; i++) {
+                // Get the name of the record field (e.g., "username")
+                String name = components[i].getName();
+
+                // OPTIONAL: Convert camelCase to snake_case if your DB uses underscores
+                // String dbColumn = toSnakeCase(name);
+                values[i] = resultSet.getObject(name);
+            }
+
+            // Find the constructor and create the record
+            Class<?>[] types = Arrays.stream(components)
+                    .map(RecordComponent::getType)
+                    .toArray(Class<?>[]::new);
+
+            return recordClass.getDeclaredConstructor(types).newInstance(values);
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Error mapping ResultSet to entity in %s: %s", tableName, e));
+        }
+    }
+
+}

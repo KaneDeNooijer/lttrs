@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * @param date  The date of the registration
  */
 public record Registration(
-        long id,
+        int id,
         int hours,
         LocalDate date
 ) {

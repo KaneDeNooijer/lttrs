@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @param endDate   The end date of the contract
  */
 public record Contract(
-        long id,
+        int id,
         int hours,
         LocalDate startDate,
         LocalDate endDate

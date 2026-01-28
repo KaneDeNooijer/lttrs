@@ -1,5 +1,7 @@
 package me.kanedenooijer.lttrs.database.entities;
 
+import me.kanedenooijer.lttrs.database.enums.Role;
+
 /**
  * Represents an account in the system.
  *
@@ -10,7 +12,7 @@ package me.kanedenooijer.lttrs.database.entities;
  * @param role     The role of the account holder
  */
 public record Account(
-        long id,
+        int id,
         String username,
         String password,
         String name,

@@ -10,7 +10,7 @@ import java.time.LocalDate;
  * @param endDate   The end date of the leave
  */
 public record Leave(
-        long id,
+        int id,
         LocalDate startDate,
         LocalDate endDate
 ) {
