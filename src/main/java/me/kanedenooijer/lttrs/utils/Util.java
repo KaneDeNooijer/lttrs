@@ -1,11 +1,11 @@
 package me.kanedenooijer.lttrs.utils;
 
 /**
- * Utility class providing helper methods for common tasks.
+ * Utility class providing various helper methods.
  */
-public final class Utils {
+public final class Util {
 
-    private Utils() {
+    private Util() {
     }
 
     /**

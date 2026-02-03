@@ -1,6 +1,6 @@
-package me.kanedenooijer.lttrs.database.dao;
+package me.kanedenooijer.lttrs.database.daos;
 
-import me.kanedenooijer.lttrs.utils.Utils;
+import me.kanedenooijer.lttrs.utils.Util;
 
 import java.lang.reflect.RecordComponent;
 import java.sql.*;
@@ -38,8 +38,8 @@ public abstract class AbstractDao<T extends Record> {
      * @return an Optional containing the entity if found, or empty if not found
      * @throws RuntimeException if a database access error occurs
      */
-    public Optional<T> findById(int id) throws RuntimeException {
-        String query = String.format("SELECT * FROM %s WHERE id = ?", Utils.toSnakeCase(recordClass.getSimpleName()));
+    public Optional<T> find(int id) throws RuntimeException {
+        String query = String.format("SELECT * FROM %s WHERE id = ?", Util.toSnakeCase(recordClass.getSimpleName()));
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, id);
@@ -51,7 +51,7 @@ public abstract class AbstractDao<T extends Record> {
             }
         } catch (SQLException e) {
             throw new RuntimeException(
-                    String.format("Error finding entity in %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+                    String.format("Error finding entity in %s: %s", Util.toSnakeCase(recordClass.getSimpleName()), e)
             );
         }
 
@@ -66,7 +66,7 @@ public abstract class AbstractDao<T extends Record> {
      */
     public List<T> findAll() throws RuntimeException {
         List<T> results = new ArrayList<>();
-        String query = String.format("SELECT * FROM %s", Utils.toSnakeCase(recordClass.getSimpleName()));
+        String query = String.format("SELECT * FROM %s", Util.toSnakeCase(recordClass.getSimpleName()));
 
         try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
@@ -74,7 +74,7 @@ public abstract class AbstractDao<T extends Record> {
             }
         } catch (SQLException e) {
             throw new RuntimeException(
-                    String.format("Error executing findAll on %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+                    String.format("Error executing findAll on %s: %s", Util.toSnakeCase(recordClass.getSimpleName()), e)
             );
         }
 
@@ -105,14 +105,14 @@ public abstract class AbstractDao<T extends Record> {
      * @throws RuntimeException if a database access error occurs
      */
     public void delete(int id) throws RuntimeException {
-        String query = String.format("DELETE FROM %s WHERE id = ?", Utils.toSnakeCase(recordClass.getSimpleName()));
+        String query = String.format("DELETE FROM %s WHERE id = ?", Util.toSnakeCase(recordClass.getSimpleName()));
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(
-                    String.format("Error deleting from %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+                    String.format("Error deleting from %s: %s", Util.toSnakeCase(recordClass.getSimpleName()), e)
             );
         }
     }
@@ -146,7 +146,7 @@ public abstract class AbstractDao<T extends Record> {
             return recordClass.getDeclaredConstructor(types).newInstance(values);
         } catch (Exception e) {
             throw new RuntimeException(
-                    String.format("Error mapping ResultSet to entity in %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+                    String.format("Error mapping ResultSet to entity in %s: %s", Util.toSnakeCase(recordClass.getSimpleName()), e)
             );
         }
     }

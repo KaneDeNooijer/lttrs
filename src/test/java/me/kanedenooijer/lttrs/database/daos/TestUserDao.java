@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.database.dao;
+package me.kanedenooijer.lttrs.database.daos;
 
 import java.sql.Connection;
 
