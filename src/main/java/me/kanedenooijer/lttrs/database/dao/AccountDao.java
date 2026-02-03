@@ -7,7 +7,7 @@ import java.sql.Connection;
 public final class AccountDao extends AbstractDao<Account> {
 
     public AccountDao(Connection connection) {
-        super(connection, Account.class, "accounts");
+        super(connection, Account.class);
     }
 
     @Override

@@ -3,4 +3,5 @@ module me.kanedenooijer.lttrs {
     requires java.sql;
 
     exports me.kanedenooijer.lttrs;
+    opens me.kanedenooijer.lttrs;
 }

@@ -1,5 +1,7 @@
 package me.kanedenooijer.lttrs.database.dao;
 
+import me.kanedenooijer.lttrs.utils.Utils;
+
 import java.lang.reflect.RecordComponent;
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,16 +22,13 @@ public abstract class AbstractDao<T extends Record> {
     protected final Connection connection;
 
     /**
-     * The name of the database table.
+     * The record this DAO manages.
      */
-    private final String tableName;
+    protected final Class<T> recordClass;
 
-    private final Class<T> recordClass;
-
-    protected AbstractDao(Connection connection, Class<T> recordClass, String tableName) {
+    protected AbstractDao(Connection connection, Class<T> recordClass) {
         this.connection = connection;
         this.recordClass = recordClass;
-        this.tableName = tableName;
     }
 
     /**
@@ -40,7 +39,7 @@ public abstract class AbstractDao<T extends Record> {
      * @throws RuntimeException if a database access error occurs
      */
     public Optional<T> findById(int id) throws RuntimeException {
-        String query = String.format("SELECT * FROM %s WHERE id = ?", tableName);
+        String query = String.format("SELECT * FROM %s WHERE id = ?", Utils.toSnakeCase(recordClass.getSimpleName()));
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, id);
@@ -51,7 +50,9 @@ public abstract class AbstractDao<T extends Record> {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(String.format("Error finding entity in %s: %s", tableName, e));
+            throw new RuntimeException(
+                    String.format("Error finding entity in %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+            );
         }
 
         return Optional.empty();
@@ -65,14 +66,16 @@ public abstract class AbstractDao<T extends Record> {
      */
     public List<T> findAll() throws RuntimeException {
         List<T> results = new ArrayList<>();
-        String query = String.format("SELECT * FROM %s", tableName);
+        String query = String.format("SELECT * FROM %s", Utils.toSnakeCase(recordClass.getSimpleName()));
 
         try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 results.add(mapResultSetToEntity(resultSet));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(String.format("Error executing findAll on %s: %s", tableName, e));
+            throw new RuntimeException(
+                    String.format("Error executing findAll on %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+            );
         }
 
         return results;
@@ -102,13 +105,15 @@ public abstract class AbstractDao<T extends Record> {
      * @throws RuntimeException if a database access error occurs
      */
     public void delete(int id) throws RuntimeException {
-        String query = String.format("DELETE FROM %s WHERE id = ?", tableName);
+        String query = String.format("DELETE FROM %s WHERE id = ?", Utils.toSnakeCase(recordClass.getSimpleName()));
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(String.format("Error deleting from %s: %s", tableName, e));
+            throw new RuntimeException(
+                    String.format("Error deleting from %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+            );
         }
     }
 
@@ -140,7 +145,9 @@ public abstract class AbstractDao<T extends Record> {
 
             return recordClass.getDeclaredConstructor(types).newInstance(values);
         } catch (Exception e) {
-            throw new RuntimeException(String.format("Error mapping ResultSet to entity in %s: %s", tableName, e));
+            throw new RuntimeException(
+                    String.format("Error mapping ResultSet to entity in %s: %s", Utils.toSnakeCase(recordClass.getSimpleName()), e)
+            );
         }
     }
 
