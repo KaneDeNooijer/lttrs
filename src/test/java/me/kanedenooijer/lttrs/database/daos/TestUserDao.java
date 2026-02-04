@@ -8,14 +8,4 @@ public final class TestUserDao extends AbstractDao<TestUser> {
         super(connection, recordClass);
     }
 
-    @Override
-    public TestUser save(TestUser entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void update(TestUser entity) {
-        throw new UnsupportedOperationException();
-    }
-
 }

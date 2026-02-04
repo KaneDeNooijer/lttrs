@@ -5,4 +5,7 @@ public record TestUser(
         String username,
         String email
 ) {
+    public TestUser(String username, String email) {
+        this(0, username, email);
+    }
 }

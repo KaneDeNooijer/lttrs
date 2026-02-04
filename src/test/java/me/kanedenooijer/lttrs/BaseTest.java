@@ -61,7 +61,7 @@ public abstract class BaseTest {
      */
     protected void insertTestUser(String username, String email) throws SQLException {
         try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format(
+            statement.executeUpdate(String.format(
                     "INSERT INTO test_user (username, email) VALUES ('%s', '%s')", username, email
             ));
         }

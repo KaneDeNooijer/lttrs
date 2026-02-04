@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AbstractDaoTest extends BaseTest {
 
@@ -58,9 +59,11 @@ class AbstractDaoTest extends BaseTest {
         // Verify each users fields
         for (int i = 0; i < users.size(); i++) {
             TestUser testUser = users.get(i);
-            assertEquals(i + 1, testUser.id());
-            assertEquals(String.format("user%d", i + 1), testUser.username());
-            assertEquals(String.format("user%d@mail.com", i + 1), testUser.email());
+            int primaryKey = i + 1;
+
+            assertEquals(primaryKey, testUser.id());
+            assertEquals(String.format("user%d", primaryKey), testUser.username());
+            assertEquals(String.format("user%d@mail.com", primaryKey), testUser.email());
         }
     }
 
@@ -75,10 +78,21 @@ class AbstractDaoTest extends BaseTest {
 
     @Test
     void givenValidEntity_whenInserting_thenEntityIsPersisted() {
+        // Save user
+        TestUser testUser = testUserDao.save(new TestUser(
+                "user1",
+                "user1@mail.com"
+        ));
+
+        // Verify its fields
+        assertEquals(1, testUser.id());
+        assertEquals("user1", testUser.username());
+        assertEquals("user1@mail.com", testUser.email());
     }
 
     @Test
     void givenExistingEntity_whenUpdating_thenEntityIsUpdated() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Test
@@ -86,10 +100,8 @@ class AbstractDaoTest extends BaseTest {
         // Create test data
         insertTestUser("user1", "user1@mail.com");
 
-        // Delete user
-        testUserDao.delete(1);
-
         // Verify user is deleted
+        assertTrue(testUserDao.delete(1));
         assertEquals(Optional.empty(), testUserDao.find(1));
     }
 

@@ -3,7 +3,7 @@ package me.kanedenooijer.lttrs.database.enums;
 /**
  * Enum representing what a user is allowed to do.
  */
-public enum Role {
+public enum AccountRole {
     /**
      * Regular user with limited permissions.
      */

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Abstract Data Access Object providing basic CRUD operations.
@@ -88,28 +89,62 @@ public abstract class AbstractDao<T extends Record> {
      * @return an Optional containing the saved entity, or empty if the save failed
      * @throws RuntimeException if a database access error occurs
      */
-    public abstract T save(T entity) throws RuntimeException;
+    public T save(T entity) throws RuntimeException {
+        // Filter components to exclude ID
+        List<RecordComponent> components = Arrays.stream(recordClass.getRecordComponents())
+                .filter(recordComponent -> !recordComponent.getName().equals("id"))
+                .toList();
+
+        // Convert the table name to snake_case
+        String table = Util.toSnakeCase(recordClass.getSimpleName());
+
+        // Fetch all names from the record and convert them to snake_case
+        String columns = components.stream()
+                .map(RecordComponent::getName)
+                .map(Util::toSnakeCase)
+                .collect(Collectors.joining(", "));
+
+        // Create a row of question marks with commas
+        String placeholders = components.stream()
+                .map(_ -> "?")
+                .collect(Collectors.joining(", "));
+
+        // Construct the query
+        String query = String.format("INSERT INTO %s (%s) VALUES (%s)", table, columns, placeholders);
+
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            // TODO
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Error saving entity to %s: %s", table, e));
+        }
+
+        return null;
+    }
 
     /**
      * Updates an existing entity in the database.
      *
      * @param entity the entity to update
+     * @return true if the entity was successfully updated, false otherwise
      * @throws RuntimeException if a database access error occurs
      */
-    public abstract void update(T entity) throws RuntimeException;
+    public boolean update(T entity) throws RuntimeException {
+        return false;
+    }
 
     /**
      * Deletes an entity by its ID.
      *
      * @param id the ID of the entity to delete
+     * @return true if the entity was successfully deleted, false otherwise
      * @throws RuntimeException if a database access error occurs
      */
-    public void delete(int id) throws RuntimeException {
+    public boolean delete(int id) throws RuntimeException {
         String query = String.format("DELETE FROM %s WHERE id = ?", Util.toSnakeCase(recordClass.getSimpleName()));
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, id);
-            statement.executeUpdate();
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException(
                     String.format("Error deleting from %s: %s", Util.toSnakeCase(recordClass.getSimpleName()), e)
