@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.utils;
+package me.kanedenooijer.lttrs.util;
 
 import me.kanedenooijer.lttrs.BaseTest;
 import org.junit.jupiter.api.Test;
@@ -25,6 +25,21 @@ class UtilTest extends BaseTest {
     @Test
     void givenEmptyString_whenConvertingToSnakeCase_thenReturnsEmptyString() {
         assertEquals("", Util.toSnakeCase(""));
+    }
+
+    @Test
+    void givenSnakeCase_whenConvertingToCamelCase_thenReturnsCamelCase() {
+        assertEquals("thisIsATest", Util.toCamelCase("this_is_a_test"));
+    }
+
+    @Test
+    void givenCamelCase_whenConvertingToCamelCase_thenReturnsSameString() {
+        assertEquals("thisIsATest", Util.toCamelCase("thisIsATest"));
+    }
+
+    @Test
+    void givenEmptyString_whenConvertingToCamelCase_thenReturnsEmptyString() {
+        assertEquals("", Util.toCamelCase(""));
     }
 
 }

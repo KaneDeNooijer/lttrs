@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.utils;
+package me.kanedenooijer.lttrs.util;
 
 /**
  * Utility class providing various helper methods.
@@ -33,6 +33,33 @@ public final class Util {
         }
 
         return result.toString().toLowerCase();
+    }
+
+    /**
+     * Converts a snake_case string to camelCase.
+     *
+     * @param input the string to convert
+     * @return the converted string in camelCase
+     */
+    public static String toCamelCase(String input) {
+        // TODO: write comments
+        StringBuilder result = new StringBuilder();
+        boolean nextUpper = false;
+
+        for (char c : input.toCharArray()) {
+            if (c == '_') {
+                nextUpper = true;
+            } else {
+                if (nextUpper) {
+                    result.append(Character.toUpperCase(c));
+                    nextUpper = false;
+                } else {
+                    result.append(c);
+                }
+            }
+        }
+
+        return result.toString();
     }
 
 }

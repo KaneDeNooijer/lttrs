@@ -1,6 +1,6 @@
-package me.kanedenooijer.lttrs.database.entities;
+package me.kanedenooijer.lttrs.database.entity;
 
-import me.kanedenooijer.lttrs.database.enums.AccountRole;
+import me.kanedenooijer.lttrs.database.type.AccountRole;
 
 /**
  * Represents an account in the system.

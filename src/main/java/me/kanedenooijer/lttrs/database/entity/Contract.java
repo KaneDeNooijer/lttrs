@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.database.entities;
+package me.kanedenooijer.lttrs.database.entity;
 
 import java.time.LocalDate;
 
