@@ -1,6 +1,6 @@
 package me.kanedenooijer.lttrs;
 
-import me.kanedenooijer.lttrs.database.type.AccountRole;
+import me.kanedenooijer.lttrs.type.AccountRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 

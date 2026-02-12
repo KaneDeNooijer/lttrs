@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.database.type;
+package me.kanedenooijer.lttrs.type;
 
 /**
  * Enum representing what a user is allowed to do.

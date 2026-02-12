@@ -2,7 +2,7 @@ package me.kanedenooijer.lttrs.database.dao;
 
 import me.kanedenooijer.lttrs.BaseTest;
 import me.kanedenooijer.lttrs.database.entity.Account;
-import me.kanedenooijer.lttrs.database.type.AccountRole;
+import me.kanedenooijer.lttrs.type.AccountRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
