@@ -1,8 +1,5 @@
 package me.kanedenooijer.lttrs.database.entity;
 
-import me.kanedenooijer.lttrs.annotation.Column;
-import me.kanedenooijer.lttrs.annotation.Id;
-import me.kanedenooijer.lttrs.annotation.Table;
 import me.kanedenooijer.lttrs.type.AccountRole;
 
 /**
@@ -14,22 +11,11 @@ import me.kanedenooijer.lttrs.type.AccountRole;
  * @param name     The name of the account holder
  * @param role     The role of the account holder
  */
-@Table("accounts")
 public record Account(
-        @Id
-        @Column("id")
         int id,
-
-        @Column("username")
         String username,
-
-        @Column("password")
         String password,
-
-        @Column("name")
         String name,
-
-        @Column("role")
         AccountRole role
 ) {
 }

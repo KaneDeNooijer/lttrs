@@ -25,7 +25,7 @@ class AbstractDaoTest extends BaseTest {
     @Test
     void givenExistingId_whenFindingById_thenReturnsEntity() throws SQLException {
         // Create test data
-        insertTestUser("user1", "password1", "Test User 1", AccountRole.USER);
+        insertTestUser("user1", "password1", "Test User 1");
 
         // Find user
         Account testUser = accountDao.find(1).orElseThrow();
@@ -50,9 +50,13 @@ class AbstractDaoTest extends BaseTest {
     @Test
     void givenExistingEntities_whenFindingAll_thenReturnsList() throws SQLException {
         // Create test data
-//        for (int i = 1; i <= 5; i++) {
-//            insertTestUser(String.format("user%d", i), String.format("user%d@mail.com", i));
-//        }
+        for (int i = 1; i <= 5; i++) {
+            insertTestUser(
+                    String.format("user%d", i),
+                    String.format("password%d", i),
+                    String.format("Test User %d", i)
+            );
+        }
 
         // Find all users
         List<Account> users = accountDao.findAll();
@@ -63,12 +67,11 @@ class AbstractDaoTest extends BaseTest {
         // Verify each users fields
         for (int i = 0; i < users.size(); i++) {
             Account testUser = users.get(i);
-            int primaryKey = i + 1;
 
-            assertEquals(primaryKey, testUser.id());
-            assertEquals(String.format("user%d", primaryKey), testUser.username());
-            assertEquals(String.format("password%d", primaryKey), testUser.password());
-            assertEquals(String.format("Test User %d", primaryKey), testUser.name());
+            assertEquals(i + 1, testUser.id());
+            assertEquals(String.format("user%d", i + 1), testUser.username());
+            assertEquals(String.format("password%d", i + 1), testUser.password());
+            assertEquals(String.format("Test User %d", i + 1), testUser.name());
             assertEquals(AccountRole.USER, testUser.role());
         }
     }
@@ -83,17 +86,9 @@ class AbstractDaoTest extends BaseTest {
     }
 
     @Test
-    void givenValidEntity_whenInserting_thenEntityIsPersisted() {
-    }
-
-    @Test
-    void givenExistingEntity_whenUpdating_thenEntityIsUpdated() {
-    }
-
-    @Test
-    void givenExistingId_whenDeleting_thenEntityIsRemoved() {
+    void givenExistingId_whenDeleting_thenEntityIsRemoved() throws SQLException {
         // Create test data
-//        insertTestUser("user1", "user1@mail.com");
+        insertTestUser("user1", "password1", "Test User 1");
 
         // Verify user is deleted
         assertTrue(accountDao.delete(1));
