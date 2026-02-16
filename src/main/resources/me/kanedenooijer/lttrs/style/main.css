@@ -1,0 +1,21 @@
+* {
+    -fx-primary-100: #e9eef5;
+    -fx-primary-200: #c9d7e8;
+    -fx-primary-300: #a8bfd8;
+    -fx-primary-400: #7e98bc;
+    -fx-primary-500: #4a6fa5;
+    -fx-primary-600: #3f6397;
+    -fx-primary-700: #344f7c;
+    -fx-primary-800: #2a3e61;
+    -fx-primary-900: #1d2b44;
+
+    -fx-secondary-100: #f4f4f4;
+    -fx-secondary-200: #e4e4e4;
+    -fx-secondary-300: #cfcfcf;
+    -fx-secondary-400: #afafaf;
+    -fx-secondary-500: #8e8e8e;
+    -fx-secondary-600: #6e6e6e;
+    -fx-secondary-700: #565656;
+    -fx-secondary-800: #3b3b3b;
+    -fx-secondary-900: #1f1f1f;
+}

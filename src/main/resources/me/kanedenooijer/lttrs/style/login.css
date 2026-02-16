@@ -1,0 +1,38 @@
+@import "main.css";
+
+#login-view {
+    -fx-background-color: linear-gradient(to bottom right, -fx-primary-600, -fx-primary-900);
+}
+
+#login-form {
+    -fx-background-color: -fx-secondary-100;
+    -fx-padding: 20px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 10, 10);
+}
+
+#login-form Label {
+    -fx-font-weight: bold;
+}
+
+#login-form TextField,
+#login-form PasswordField {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+#login-form TextField:focused,
+#login-form PasswordField:focused {
+    -fx-border-color: black;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+#login-form Button {
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}

@@ -2,7 +2,7 @@ package me.kanedenooijer.lttrs.database.dao;
 
 import me.kanedenooijer.lttrs.BaseTest;
 import me.kanedenooijer.lttrs.database.entity.Account;
-import me.kanedenooijer.lttrs.type.AccountRole;
+import me.kanedenooijer.lttrs.type.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,7 @@ class AbstractDaoTest extends BaseTest {
         assertEquals("user1", testUser.username());
         assertEquals("password1", testUser.password());
         assertEquals("Test User 1", testUser.name());
-        assertEquals(AccountRole.USER, testUser.role());
+        assertEquals(Role.USER, testUser.role());
     }
 
     @Test
@@ -72,7 +72,7 @@ class AbstractDaoTest extends BaseTest {
             assertEquals(String.format("user%d", i + 1), testUser.username());
             assertEquals(String.format("password%d", i + 1), testUser.password());
             assertEquals(String.format("Test User %d", i + 1), testUser.name());
-            assertEquals(AccountRole.USER, testUser.role());
+            assertEquals(Role.USER, testUser.role());
         }
     }
 

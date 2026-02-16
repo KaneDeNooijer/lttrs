@@ -1,6 +1,6 @@
 package me.kanedenooijer.lttrs;
 
-import me.kanedenooijer.lttrs.type.AccountRole;
+import me.kanedenooijer.lttrs.type.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -23,7 +23,7 @@ public abstract class BaseTest {
     void globalSetup() throws SQLException {
         // Create an in-memory H2 database connection with
         // DB_CLOSE_DELAY=-1 to keep it alive until the JVM shuts down
-        connection = DriverManager.getConnection("jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1");
+        connection = DriverManager.getConnection("jdbc:h2:mem:lttrs;DB_CLOSE_DELAY=-1");
 
         try (Statement statement = connection.createStatement()) {
             // Clear any existing objects (H2 specific command)
@@ -35,7 +35,7 @@ public abstract class BaseTest {
                         `username` VARCHAR(255) NOT NULL,
                         `password` VARCHAR(255) NOT NULL,
                         `name` VARCHAR(255) NOT NULL,
-                        `role` ENUM('USER', 'ADMIN') NOT NULL,
+                        `role` ENUM('user', 'admin') NOT NULL,
                         PRIMARY KEY (`id`)
                     )
                     """);
@@ -64,7 +64,7 @@ public abstract class BaseTest {
             statement.setObject(1, username);
             statement.setObject(2, password);
             statement.setObject(3, name);
-            statement.setObject(4, AccountRole.USER.name());
+            statement.setObject(4, Role.USER.name().toLowerCase());
             statement.executeUpdate();
         }
     }

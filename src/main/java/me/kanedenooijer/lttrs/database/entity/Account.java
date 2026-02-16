@@ -1,6 +1,6 @@
 package me.kanedenooijer.lttrs.database.entity;
 
-import me.kanedenooijer.lttrs.type.AccountRole;
+import me.kanedenooijer.lttrs.type.Role;
 
 /**
  * Represents an account in the system.
@@ -16,6 +16,6 @@ public record Account(
         String username,
         String password,
         String name,
-        AccountRole role
+        Role role
 ) {
 }
