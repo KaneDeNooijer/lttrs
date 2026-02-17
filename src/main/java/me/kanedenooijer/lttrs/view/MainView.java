@@ -11,7 +11,7 @@ public final class MainView extends StackPane {
         this.loginView = new LoginView();
         this.registerView = new RegisterView();
 
-        this.getChildren().addAll(this.loginView, this.registerView);
+        this.getChildren().add(this.loginView);
     }
 
 }

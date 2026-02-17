@@ -1,14 +1,24 @@
 @import "main.css";
 
+* {
+    -fx-background-0: #4a6fa5;
+    -fx-background-50: #57c785;
+    -fx-background-100: #eddd53;
+}
+
 #login-view {
-    -fx-background-color: linear-gradient(to bottom right, -fx-primary-600, -fx-primary-900);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 75%, -fx-primary-500, -fx-primary-900);
+    -fx-alignment: center;
 }
 
 #login-form {
-    -fx-background-color: -fx-secondary-100;
+    -fx-background-color: -fx-white;
     -fx-padding: 20px;
     -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 10, 10);
+    -fx-border-color: -fx-black;
+    -fx-border-width: 3px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 10, 10);
 }
 
 #login-form Label {
@@ -17,22 +27,39 @@
 
 #login-form TextField,
 #login-form PasswordField {
-    -fx-border-color: black;
-    -fx-border-width: 1px;
+    -fx-font-weight: bold;
+    -fx-border-color: -fx-black;
+    -fx-border-width: 2px;
     -fx-border-radius: 5px;
 }
 
 #login-form TextField:focused,
 #login-form PasswordField:focused {
-    -fx-border-color: black;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
+    -fx-border-color: -fx-primary-600;
+    -fx-focus-color: -fx-primary-200;
+    -fx-faint-focus-color: -fx-primary-200;
+
 }
 
-#login-form Button {
+#login-button {
     -fx-font-weight: bold;
+    -fx-text-fill: -fx-white;
+    -fx-background-color: -fx-black;
+    -fx-border-color: transparent;
+}
+
+#login-button:hover {
+    -fx-background-color: -fx-primary-600;
+}
+
+#register-button {
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-text-fill: -fx-black;
     -fx-background-color: transparent;
-    -fx-border-color: black;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
+    -fx-border-color: transparent;
+}
+
+#register-button:hover {
+    -fx-text-fill: -fx-primary-600;
 }
