@@ -3,6 +3,7 @@ package me.kanedenooijer.lttrs.database.dao;
 import me.kanedenooijer.lttrs.BaseTest;
 import me.kanedenooijer.lttrs.database.entity.Account;
 import me.kanedenooijer.lttrs.type.Role;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,13 +14,18 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AbstractDaoTest extends BaseTest {
+class GenericDaoTest extends BaseTest {
 
     AccountDao accountDao;
 
     @BeforeEach
     void setup() {
         accountDao = new AccountDao(connection);
+    }
+
+    @AfterEach
+    void teardown() throws SQLException {
+        accountDao.close();
     }
 
     @Test
@@ -44,7 +50,7 @@ class AbstractDaoTest extends BaseTest {
         Optional<Account> testUser = accountDao.find(1);
 
         // Verify empty optional
-        assertEquals(Optional.empty(), testUser);
+        assertTrue(testUser.isEmpty());
     }
 
     @Test

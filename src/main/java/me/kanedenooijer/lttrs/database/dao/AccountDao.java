@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class AccountDao extends AbstractDao<Account> {
+public final class AccountDao extends GenericDao<Account> {
 
     public AccountDao(Connection connection) {
         super(connection, "accounts");
@@ -30,7 +30,7 @@ public class AccountDao extends AbstractDao<Account> {
     protected Optional<Account> create(Account entity) throws RuntimeException {
         String query = "INSERT INTO `accounts` (`username`, `password`, `name`, `role`) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, entity.username());
             statement.setString(2, entity.password());
             statement.setString(3, entity.name());

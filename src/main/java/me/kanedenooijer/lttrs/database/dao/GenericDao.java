@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * @param <T> the type of the entity, which must be a record
  */
-public abstract class AbstractDao<T extends Record> {
+public abstract class GenericDao<T extends Record> implements AutoCloseable {
 
     /**
      * The database connection.
@@ -22,7 +22,7 @@ public abstract class AbstractDao<T extends Record> {
      */
     protected final String tableName;
 
-    protected AbstractDao(Connection connection, String tableName) {
+    public GenericDao(Connection connection, String tableName) {
         this.connection = connection;
         this.tableName = tableName;
     }
@@ -117,4 +117,15 @@ public abstract class AbstractDao<T extends Record> {
             throw new RuntimeException(String.format("Error deleting from %s: %s", tableName, e));
         }
     }
+
+    /**
+     * Closes the database connection.
+     *
+     * @throws SQLException if an error occurs while closing the connection
+     */
+    @Override
+    public void close() throws SQLException {
+        connection.close();
+    }
+
 }
