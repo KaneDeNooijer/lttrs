@@ -21,15 +21,28 @@ public final class Main extends Application {
     private static Connection connection;
 
     @Override
-    public void start(Stage stage) throws SQLException {
+    public void start(Stage stage) throws RuntimeException {
         // Initialize the database connection
-        Main.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/lttrs", "root", "");
+        try {
+            Main.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/lttrs", "root", "");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Set up the main view and show the stage
         stage.setScene(new Scene(MainView.getInstance(), 1400, 800));
         stage.setTitle("LTTRS");
         stage.setResizable(false);
         stage.show();
+
+        // Handle application close to ensure the database connection is closed
+        stage.setOnCloseRequest(_ -> {
+            try {
+                Main.connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**

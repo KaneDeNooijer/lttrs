@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * @param <T> the type of the entity, which must be a record
  */
-public abstract class GenericDao<T extends Record> implements AutoCloseable {
+public abstract class GenericDao<T extends Record> {
 
     /**
      * The database connection.
@@ -116,16 +116,6 @@ public abstract class GenericDao<T extends Record> implements AutoCloseable {
         } catch (SQLException e) {
             throw new RuntimeException(String.format("Error deleting from %s: %s", tableName, e));
         }
-    }
-
-    /**
-     * Closes the database connection.
-     *
-     * @throws SQLException if an error occurs while closing the connection
-     */
-    @Override
-    public void close() throws SQLException {
-        connection.close();
     }
 
 }

@@ -13,7 +13,6 @@ import me.kanedenooijer.lttrs.database.entity.Account;
 import me.kanedenooijer.lttrs.type.AccountRole;
 import me.kanedenooijer.lttrs.type.NotificationType;
 
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -79,31 +78,29 @@ public final class RegisterView extends FlowPane {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        try (AccountDao dao = new AccountDao(Main.getConnection())) {
-            // Validate blank fields
-            if (name.isBlank() || email.isBlank() || password.isBlank()) {
-                MainView.getInstance().showNotification(NotificationType.WARNING, "Please fill in all fields.");
-                return;
-            }
+        AccountDao dao = new AccountDao(Main.getConnection());
 
-            // Validate if email is already in use
-            if (dao.findByEmail(email).isPresent()) {
-                MainView.getInstance().showNotification(NotificationType.WARNING, "An account with this email already exists.");
-                return;
-            }
-
-            // Create the account
-            Optional<Account> created = dao.create(new Account(name, email, password, AccountRole.USER));
-
-            // Check if the account was created successfully
-            if (created.isPresent()) {
-                MainView.getInstance().showNotification(NotificationType.SUCCESS, "Account created! You can now log in.");
-                MainView.getInstance().switchView(new LoginView());
-            }
-
-        } catch (SQLException e) {
-            MainView.getInstance().showNotification(NotificationType.ERROR, "An error occurred while creating your account. Please try again later.");
+        // Validate blank fields
+        if (name.isBlank() || email.isBlank() || password.isBlank()) {
+            MainView.getInstance().showNotification(NotificationType.WARNING, "Please fill in all fields.");
+            return;
         }
+
+        // Validate if email is already in use
+        if (dao.findByEmail(email).isPresent()) {
+            MainView.getInstance().showNotification(NotificationType.WARNING, "An account with this email already exists.");
+            return;
+        }
+
+        // Create the account
+        Optional<Account> created = dao.create(new Account(name, email, password, AccountRole.USER));
+
+        // Check if the account was created successfully
+        if (created.isPresent()) {
+            MainView.getInstance().showNotification(NotificationType.SUCCESS, "Account created! You can now log in.");
+            MainView.getInstance().switchView(new LoginView());
+        }
+
     }
 
 }
