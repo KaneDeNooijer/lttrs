@@ -14,7 +14,6 @@ import me.kanedenooijer.lttrs.type.AccountRole;
 import me.kanedenooijer.lttrs.type.NotificationType;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public final class RegisterView extends FlowPane {
 
@@ -68,17 +67,19 @@ public final class RegisterView extends FlowPane {
                 buttonContainer
         );
 
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/auth.css")).toExternalForm());
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
         this.setId("view");
         this.getChildren().add(form);
     }
 
     private void register() {
+        // Trim input values to prevent accidental spaces
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        AccountDao dao = new AccountDao(Main.getConnection());
+        // Create DAO instance for database operations
+        AccountDao accountDao = new AccountDao(Main.getConnection());
 
         // Validate blank fields
         if (name.isBlank() || email.isBlank() || password.isBlank()) {
@@ -87,20 +88,20 @@ public final class RegisterView extends FlowPane {
         }
 
         // Validate if email is already in use
-        if (dao.findByEmail(email).isPresent()) {
+        if (accountDao.findByEmail(email).isPresent()) {
             MainView.getInstance().showNotification(NotificationType.WARNING, "An account with this email already exists.");
             return;
         }
 
-        // Create the account
-        Optional<Account> created = dao.create(new Account(name, email, password, AccountRole.USER));
-
         // Check if the account was created successfully
-        if (created.isPresent()) {
+        if (accountDao.create(new Account(name, email, password, AccountRole.USER)).isPresent()) {
             MainView.getInstance().showNotification(NotificationType.SUCCESS, "Account created! You can now log in.");
             MainView.getInstance().switchView(new LoginView());
+            return;
         }
 
+        // If we reach this point, something went wrong during account creation
+        MainView.getInstance().showNotification(NotificationType.ERROR, "An error occurred while creating your account. Please try again.");
     }
 
 }

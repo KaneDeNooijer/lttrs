@@ -11,30 +11,33 @@ public final class MainView extends StackPane {
 
     private static MainView instance;
 
+    private final StackPane notificationLayer;
+
     private MainView() {
-        getChildren().add(new LoginView());
+        this.notificationLayer = new StackPane();
+        this.notificationLayer.setPadding(new Insets(30, 0, 0, 0));
+        this.notificationLayer.setAlignment(Pos.TOP_CENTER);
+        this.notificationLayer.setPickOnBounds(false);
+
+        this.getChildren().add(new LoginView());
     }
 
     public void switchView(Pane newView) {
-        getChildren().clear();
-        getChildren().add(newView);
+        this.getChildren().clear();
+        this.getChildren().addAll(newView, this.notificationLayer);
     }
 
     public void showNotification(NotificationType type, String message) {
         Notification notification = new Notification(type, message);
-        notification.setMaxWidth(400);
-        notification.setMaxHeight(200);
-        StackPane.setAlignment(notification, Pos.TOP_CENTER);
-        StackPane.setMargin(notification, new Insets(0, 0, 24, 0));
-        getChildren().add(notification);
+        this.notificationLayer.getChildren().add(notification);
     }
 
     public static MainView getInstance() {
-        if (instance == null) {
-            instance = new MainView();
+        if (MainView.instance == null) {
+            MainView.instance = new MainView();
         }
 
-        return instance;
+        return MainView.instance;
     }
 
 }

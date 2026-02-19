@@ -51,7 +51,7 @@ public final class LoginView extends FlowPane {
                 buttonContainer
         );
 
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/auth.css")).toExternalForm());
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
         this.setId("view");
         this.getChildren().add(form);
     }
