@@ -1,0 +1,29 @@
+@import "main.css";
+
+#notification {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-background-radius: 10px;
+}
+
+#notification.success {
+    -fx-background-color: #22c55e;
+}
+
+#notification.warning {
+    -fx-background-color: #f59e0b;
+}
+
+#notification.error {
+    -fx-background-color: #ef4444;
+}
+
+#notification-text {
+    -fx-text-fill: white;
+}
+
+#notification-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}

@@ -19,12 +19,12 @@ public final class RegistrationDao extends GenericDao<Registration> {
     }
 
     @Override
-    protected Optional<Registration> create(Registration entity) throws RuntimeException {
+    public Optional<Registration> create(Registration entity) throws RuntimeException {
         return Optional.empty();
     }
 
     @Override
-    protected boolean update(Registration entity) throws RuntimeException {
+    public boolean update(Registration entity) throws RuntimeException {
         return false;
     }
 

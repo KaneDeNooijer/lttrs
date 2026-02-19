@@ -1,0 +1,59 @@
+@import "main.css";
+
+#view {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 75%, -fx-primary-500, -fx-primary-900);
+    -fx-alignment: center;
+}
+
+#form {
+    -fx-background-color: -fx-white;
+    -fx-padding: 20px;
+    -fx-background-radius: 10px;
+    -fx-border-color: -fx-black;
+    -fx-border-width: 3px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 10, 10);
+}
+
+#form Label {
+    -fx-font-weight: bold;
+}
+
+#form TextField,
+#form PasswordField {
+    -fx-font-weight: bold;
+    -fx-border-color: -fx-black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+}
+
+#form TextField:focused,
+#form PasswordField:focused {
+    -fx-border-color: -fx-primary-600;
+    -fx-focus-color: -fx-primary-200;
+    -fx-faint-focus-color: -fx-primary-200;
+
+}
+
+#primary-button {
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-white;
+    -fx-background-color: -fx-black;
+    -fx-border-color: transparent;
+}
+
+#primary-button:hover {
+    -fx-background-color: -fx-primary-600;
+}
+
+#secondary-button {
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-text-fill: -fx-black;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+#secondary-button:hover {
+    -fx-text-fill: -fx-primary-600;
+}

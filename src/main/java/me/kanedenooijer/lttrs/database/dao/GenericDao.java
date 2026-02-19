@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * @param <T> the type of the entity, which must be a record
  */
-public abstract class GenericDao<T extends Record> implements AutoCloseable {
+public abstract class GenericDao<T extends Record> {
 
     /**
      * The database connection.
@@ -43,7 +43,7 @@ public abstract class GenericDao<T extends Record> implements AutoCloseable {
      * @return an Optional containing the created entity with its generated ID, or empty if creation failed
      * @throws RuntimeException if a database access error occurs
      */
-    protected abstract Optional<T> create(T entity) throws RuntimeException;
+    public abstract Optional<T> create(T entity) throws RuntimeException;
 
     /**
      * Updates an existing entity in the database.
@@ -52,7 +52,7 @@ public abstract class GenericDao<T extends Record> implements AutoCloseable {
      * @return true if the entity was successfully updated, false otherwise
      * @throws RuntimeException if a database access error occurs
      */
-    protected abstract boolean update(T entity) throws RuntimeException;
+    public abstract boolean update(T entity) throws RuntimeException;
 
     /**
      * Finds an entity by its ID.
@@ -116,16 +116,6 @@ public abstract class GenericDao<T extends Record> implements AutoCloseable {
         } catch (SQLException e) {
             throw new RuntimeException(String.format("Error deleting from %s: %s", tableName, e));
         }
-    }
-
-    /**
-     * Closes the database connection.
-     *
-     * @throws SQLException if an error occurs while closing the connection
-     */
-    @Override
-    public void close() throws SQLException {
-        connection.close();
     }
 
 }
