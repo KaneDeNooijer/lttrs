@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import me.kanedenooijer.lttrs.type.NotificationType;
+import me.kanedenooijer.lttrs.view.component.Notification;
 
 public final class MainView extends StackPane {
 
@@ -18,7 +20,7 @@ public final class MainView extends StackPane {
         getChildren().add(newView);
     }
 
-    public void showNotification(Notification.Type type, String message) {
+    public void showNotification(NotificationType type, String message) {
         Notification notification = new Notification(type, message);
         notification.setMaxWidth(400);
         notification.setMaxHeight(200);

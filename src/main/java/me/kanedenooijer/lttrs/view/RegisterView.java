@@ -10,8 +10,10 @@ import javafx.scene.layout.VBox;
 import me.kanedenooijer.lttrs.Main;
 import me.kanedenooijer.lttrs.database.dao.AccountDao;
 import me.kanedenooijer.lttrs.database.entity.Account;
-import me.kanedenooijer.lttrs.type.Role;
+import me.kanedenooijer.lttrs.type.AccountRole;
+import me.kanedenooijer.lttrs.type.NotificationType;
 
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -77,28 +79,30 @@ public final class RegisterView extends FlowPane {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            MainView.getInstance().showNotification(Notification.Type.WARNING, "Please fill in all fields.");
-        }
-
-        if (!email.matches("^[\\w._%+\\-]+@[\\w.\\-]+\\.[a-zA-Z]{2,}$")) {
-            MainView.getInstance().showNotification(Notification.Type.WARNING, "Please enter a valid email address.");
-        }
-
         try (AccountDao dao = new AccountDao(Main.getConnection())) {
-            Account account = new Account(0, email, password, name, Role.USER);
-            Optional<Account> created = dao.create(account);
-
-            if (created.isPresent()) {
-                MainView.getInstance().showNotification(Notification.Type.SUCCESS, "Account created! You can now log in.");
-                MainView.getInstance().switchView(new LoginView());
+            // Validate blank fields
+            if (name.isBlank() || email.isBlank() || password.isBlank()) {
+                MainView.getInstance().showNotification(NotificationType.WARNING, "Please fill in all fields.");
                 return;
             }
 
-            MainView.getInstance().showNotification(Notification.Type.ERROR, "Registration failed. Please try again.");
+            // Validate if email is already in use
+            if (dao.findByEmail(email).isPresent()) {
+                MainView.getInstance().showNotification(NotificationType.WARNING, "An account with this email already exists.");
+                return;
+            }
 
-        } catch (Exception e) {
-            MainView.getInstance().showNotification(Notification.Type.ERROR, "An error occurred during registration. Please try again.");
+            // Create the account
+            Optional<Account> created = dao.create(new Account(name, email, password, AccountRole.USER));
+
+            // Check if the account was created successfully
+            if (created.isPresent()) {
+                MainView.getInstance().showNotification(NotificationType.SUCCESS, "Account created! You can now log in.");
+                MainView.getInstance().switchView(new LoginView());
+            }
+
+        } catch (SQLException e) {
+            MainView.getInstance().showNotification(NotificationType.ERROR, "An error occurred while creating your account. Please try again later.");
         }
     }
 

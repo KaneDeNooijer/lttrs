@@ -1,6 +1,6 @@
 package me.kanedenooijer.lttrs;
 
-import me.kanedenooijer.lttrs.type.Role;
+import me.kanedenooijer.lttrs.type.AccountRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -64,7 +64,7 @@ public abstract class BaseTest {
             statement.setObject(1, username);
             statement.setObject(2, password);
             statement.setObject(3, name);
-            statement.setObject(4, Role.USER.name().toLowerCase());
+            statement.setObject(4, AccountRole.USER.name().toLowerCase());
             statement.executeUpdate();
         }
     }

@@ -1,15 +1,15 @@
 DROP DATABASE IF EXISTS `lttrs`;
-CREATE DATABASE `lttrs`;
+CREATE DATABASE IF NOT EXISTS `lttrs`;
 USE `lttrs`;
 
 -- Accounts table to store user information.
 CREATE TABLE IF NOT EXISTS `accounts`
 (
-    `id`       INT                    NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(255)           NOT NULL UNIQUE,
-    `password` VARCHAR(255)           NOT NULL,
-    `name`     VARCHAR(255)           NOT NULL,
-    `role`     ENUM ('user', 'admin') NOT NULL DEFAULT 'user',
+    `id`        INT                    NOT NULL AUTO_INCREMENT,
+    `full_name` VARCHAR(255)           NOT NULL,
+    `email`     VARCHAR(255)           NOT NULL UNIQUE,
+    `password`  VARCHAR(255)           NOT NULL,
+    `role`      ENUM ('user', 'admin') NOT NULL DEFAULT 'user',
     PRIMARY KEY (`id`)
 );
 

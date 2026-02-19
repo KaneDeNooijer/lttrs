@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.view;
+package me.kanedenooijer.lttrs.view.component;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -8,17 +8,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.util.Duration;
+import me.kanedenooijer.lttrs.type.NotificationType;
 
 public final class Notification extends HBox {
 
-    public enum Type {
-        SUCCESS,
-        ERROR,
-        WARNING,
-        INFO
-    }
-
-    public Notification(Type type, String message) {
+    public Notification(NotificationType type, String message) {
         this.setId("notification");
         this.getStyleClass().add(type.name().toLowerCase());
 
@@ -42,12 +36,11 @@ public final class Notification extends HBox {
         pause.play();
     }
 
-    private String getIcon(Type type) {
+    private String getIcon(NotificationType type) {
         return switch (type) {
             case SUCCESS -> "✓";
             case ERROR -> "✕";
             case WARNING -> "⚠";
-            case INFO -> "ℹ";
         };
     }
 
