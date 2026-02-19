@@ -15,6 +15,9 @@ import me.kanedenooijer.lttrs.type.NotificationType;
 
 import java.util.Objects;
 
+/**
+ * The RegisterView class represents the user interface for the registration screen of the application.
+ */
 public final class RegisterView extends FlowPane {
 
     private final TextField nameField;
