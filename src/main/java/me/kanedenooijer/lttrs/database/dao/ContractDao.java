@@ -19,12 +19,12 @@ public final class ContractDao extends GenericDao<Contract> {
     }
 
     @Override
-    protected Optional<Contract> create(Contract entity) throws RuntimeException {
+    public Optional<Contract> create(Contract entity) throws RuntimeException {
         return Optional.empty();
     }
 
     @Override
-    protected boolean update(Contract entity) throws RuntimeException {
+    public boolean update(Contract entity) throws RuntimeException {
         return false;
     }
 

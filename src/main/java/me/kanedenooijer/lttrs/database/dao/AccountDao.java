@@ -27,7 +27,7 @@ public final class AccountDao extends GenericDao<Account> {
     }
 
     @Override
-    protected Optional<Account> create(Account entity) throws RuntimeException {
+    public Optional<Account> create(Account entity) throws RuntimeException {
         String query = "INSERT INTO `accounts` (`username`, `password`, `name`, `role`) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -57,7 +57,7 @@ public final class AccountDao extends GenericDao<Account> {
     }
 
     @Override
-    protected boolean update(Account entity) throws RuntimeException {
+    public boolean update(Account entity) throws RuntimeException {
         String query = "UPDATE `accounts` SET `username` = ?, `password` = ?, `name` = ?, `role` = ? WHERE `id` = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {

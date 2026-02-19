@@ -19,12 +19,12 @@ public final class LeaveDao extends GenericDao<Leave> {
     }
 
     @Override
-    protected Optional<Leave> create(Leave entity) throws RuntimeException {
+    public Optional<Leave> create(Leave entity) throws RuntimeException {
         return Optional.empty();
     }
 
     @Override
-    protected boolean update(Leave entity) throws RuntimeException {
+    public boolean update(Leave entity) throws RuntimeException {
         return false;
     }
 

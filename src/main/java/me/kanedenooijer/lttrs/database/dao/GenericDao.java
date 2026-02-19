@@ -43,7 +43,7 @@ public abstract class GenericDao<T extends Record> implements AutoCloseable {
      * @return an Optional containing the created entity with its generated ID, or empty if creation failed
      * @throws RuntimeException if a database access error occurs
      */
-    protected abstract Optional<T> create(T entity) throws RuntimeException;
+    public abstract Optional<T> create(T entity) throws RuntimeException;
 
     /**
      * Updates an existing entity in the database.
@@ -52,7 +52,7 @@ public abstract class GenericDao<T extends Record> implements AutoCloseable {
      * @return true if the entity was successfully updated, false otherwise
      * @throws RuntimeException if a database access error occurs
      */
-    protected abstract boolean update(T entity) throws RuntimeException;
+    public abstract boolean update(T entity) throws RuntimeException;
 
     /**
      * Finds an entity by its ID.
