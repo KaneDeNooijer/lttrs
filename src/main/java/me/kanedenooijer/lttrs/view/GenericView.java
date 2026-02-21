@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.view.component;
+package me.kanedenooijer.lttrs.view;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -7,9 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import me.kanedenooijer.lttrs.model.AccountSession;
 import me.kanedenooijer.lttrs.type.NotificationType;
-import me.kanedenooijer.lttrs.view.DashboardView;
-import me.kanedenooijer.lttrs.view.LoginView;
-import me.kanedenooijer.lttrs.view.MainView;
 
 import java.util.Objects;
 
@@ -19,9 +16,13 @@ import java.util.Objects;
  */
 public abstract class GenericView extends BorderPane {
 
+    protected StackPane centerPane;
+
     public GenericView() {
         this.setTop(buildNavbar());
         this.setLeft(buildSidebar());
+        this.centerPane = buildCenter();
+        this.setCenter(this.centerPane);
         this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/generic.css")).toExternalForm());
     }
 
@@ -47,10 +48,10 @@ public abstract class GenericView extends BorderPane {
      * Clicking it navigates to the dashboard.
      */
     private Button buildAccountButton() {
-        Label initials = new Label(AccountSession.getInstance().getAccount().initials());
+        Label initials = new Label(AccountSession.getAccount().initials());
         initials.setId("account-initials");
 
-        Label fullName = new Label(AccountSession.getInstance().getAccount().fullName());
+        Label fullName = new Label(AccountSession.getAccount().fullName());
         fullName.setGraphic(initials);
         fullName.setContentDisplay(ContentDisplay.RIGHT);
 
@@ -70,21 +71,25 @@ public abstract class GenericView extends BorderPane {
         sidebar.setId("sidebar");
 
         Button dashboardItem = createSidebarItem("/me/kanedenooijer/lttrs/image/dashboard.png", "Dashboard");
-        Button registrationItem = createSidebarItem("/me/kanedenooijer/lttrs/image/calendar.png", "Registrations");
+        Button hourRegistrationItem = createSidebarItem("/me/kanedenooijer/lttrs/image/calendar.png", "Registrations");
         Button leaveItem = createSidebarItem("/me/kanedenooijer/lttrs/image/baggage.png", "Leaves");
         Button adminItem = createSidebarItem("/me/kanedenooijer/lttrs/image/sliders.png", "Admin");
         Button logoutItem = createSidebarItem("/me/kanedenooijer/lttrs/image/arrow-left.png", "Log out");
 
         dashboardItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
-        registrationItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        hourRegistrationItem.setOnAction(_ -> MainView.getInstance().switchView(new HourRegistrationsView()));
         leaveItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
         adminItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
-        logoutItem.setOnAction(_ -> logout());
+        logoutItem.setOnAction(_ -> {
+            AccountSession.logout();
+            MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged out.");
+            MainView.getInstance().switchView(new LoginView());
+        });
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        sidebar.getChildren().addAll(dashboardItem, registrationItem, leaveItem, adminItem, spacer, logoutItem);
+        sidebar.getChildren().addAll(dashboardItem, hourRegistrationItem, leaveItem, adminItem, spacer, logoutItem);
 
         return sidebar;
     }
@@ -118,13 +123,10 @@ public abstract class GenericView extends BorderPane {
         return icon;
     }
 
-    /**
-     * Logs the current account out, shows a success notification,
-     * and redirects to the login view.
-     */
-    private void logout() {
-        AccountSession.getInstance().logout();
-        MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged out.");
-        MainView.getInstance().switchView(new LoginView());
+    private StackPane buildCenter() {
+        StackPane center = new StackPane();
+        center.setId("center");
+
+        return center;
     }
 }

@@ -7,9 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import me.kanedenooijer.lttrs.Main;
 import me.kanedenooijer.lttrs.database.dao.AccountDao;
 import me.kanedenooijer.lttrs.database.entity.Account;
+import me.kanedenooijer.lttrs.model.DatabaseConnection;
 import me.kanedenooijer.lttrs.type.AccountRole;
 import me.kanedenooijer.lttrs.type.NotificationType;
 
@@ -88,7 +88,7 @@ public final class RegisterView extends FlowPane {
             return;
         }
 
-        AccountDao accountDao = new AccountDao(Main.getConnection());
+        AccountDao accountDao = new AccountDao(DatabaseConnection.getConnection());
 
         if (accountDao.findByEmail(email).isPresent()) {
             MainView.getInstance().showNotification(NotificationType.WARNING, "An account with this email already exists.");

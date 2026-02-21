@@ -2,36 +2,37 @@ package me.kanedenooijer.lttrs.model;
 
 import me.kanedenooijer.lttrs.database.entity.Account;
 
+/**
+ * Utility class holding the currently authenticated account for the duration of the session.
+ */
 public final class AccountSession {
 
-    private static AccountSession instance;
-
-    private Account account;
+    private static Account account;
 
     private AccountSession() {
     }
 
-    public void login(Account account) {
-        this.account = account;
+    /**
+     * Stores the given account as the active session.
+     *
+     * @param account the account that has logged in
+     */
+    public static void login(Account account) {
+        AccountSession.account = account;
     }
 
-    public void logout() {
-        this.account = null;
+    /**
+     * Clears the active session.
+     */
+    public static void logout() {
+        account = null;
     }
 
-    public boolean isLoggedIn() {
-        return this.account != null;
+    /**
+     * Returns the currently authenticated account.
+     */
+    public static Account getAccount() {
+        return account;
     }
 
-    public Account getAccount() {
-        return this.account;
-    }
-
-    public static AccountSession getInstance() {
-        if (AccountSession.instance == null) {
-            AccountSession.instance = new AccountSession();
-        }
-
-        return AccountSession.instance;
-    }
 }

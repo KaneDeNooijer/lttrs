@@ -1,4 +1,4 @@
-@import "main.css";
+@import "../main.css";
 
 #notification {
     -fx-padding: 10px;

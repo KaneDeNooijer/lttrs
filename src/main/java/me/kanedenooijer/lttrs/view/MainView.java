@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import me.kanedenooijer.lttrs.type.NotificationType;
-import me.kanedenooijer.lttrs.view.component.NotificationView;
+import me.kanedenooijer.lttrs.view.component.NotificationComponent;
 
 /**
  * Root view of the application, acts as a singleton StackPane that
@@ -33,8 +33,8 @@ public final class MainView extends StackPane {
      * @param view the new view to display
      */
     public void switchView(Pane view) {
-        this.getChildren().clear();
-        this.getChildren().addAll(view, this.notificationLayer);
+        getChildren().clear();
+        getChildren().addAll(view, this.notificationLayer);
     }
 
     /**
@@ -44,18 +44,18 @@ public final class MainView extends StackPane {
      * @param message the message to display
      */
     public void showNotification(NotificationType type, String message) {
-        this.notificationLayer.getChildren().add(new NotificationView(type, message));
+        notificationLayer.getChildren().add(new NotificationComponent(type, message));
     }
 
     /**
      * Returns the singleton instance of MainView, creating it if it does not yet exist.
      */
     public static MainView getInstance() {
-        if (MainView.instance == null) {
-            MainView.instance = new MainView();
+        if (instance == null) {
+            instance = new MainView();
         }
 
-        return MainView.instance;
+        return instance;
     }
 
 }

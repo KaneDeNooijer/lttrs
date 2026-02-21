@@ -1,8 +1,11 @@
 @import "main.css";
 
+#center {
+    -fx-padding: 20px;
+}
+
 #navbar {
     -fx-background-color: -fx-primary-600;
-    -fx-effect: dropshadow(gaussian, -fx-black, 20, 0, 0, 0);
     -fx-padding: 20px;
     -fx-alignment: center-left;
     -fx-view-order: -1;
@@ -22,8 +25,11 @@
 }
 
 #account-initials {
-    -fx-background-color: -fx-primary-500;
+    -fx-background-color: -fx-primary-400;
+    -fx-border-color: -fx-primary-200;
     -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
     -fx-font-size: 18px;
     -fx-font-weight: bold;
     -fx-padding: 15px 10px 15px 10px;
@@ -31,7 +37,6 @@
 
 #sidebar {
     -fx-background-color: -fx-primary-500;
-    -fx-effect: dropshadow(gaussian, -fx-black, 20, 0, 0, 0);
     -fx-padding: 20px;
     -fx-spacing: 20px;
 }
