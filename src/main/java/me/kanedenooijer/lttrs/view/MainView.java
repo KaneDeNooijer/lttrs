@@ -15,11 +15,11 @@ public final class MainView extends StackPane {
 
     private MainView() {
         this.notificationLayer = new StackPane();
-        this.notificationLayer.setPadding(new Insets(30, 0, 0, 0));
+        this.notificationLayer.setPadding(new Insets(10, 0, 0, 0));
         this.notificationLayer.setAlignment(Pos.TOP_CENTER);
         this.notificationLayer.setPickOnBounds(false);
 
-        this.getChildren().add(new LoginView());
+        this.getChildren().addAll(new LoginView(), this.notificationLayer);
     }
 
     public void switchView(Pane newView) {

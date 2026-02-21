@@ -1,6 +1,11 @@
 package me.kanedenooijer.lttrs.view;
 
-import javafx.scene.layout.FlowPane;
+import me.kanedenooijer.lttrs.view.component.GenericView;
 
-public final class DashboardView extends FlowPane {
+public final class DashboardView extends GenericView {
+
+    public DashboardView() {
+        super();
+    }
+
 }
