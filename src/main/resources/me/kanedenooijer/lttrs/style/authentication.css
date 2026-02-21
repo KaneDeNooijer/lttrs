@@ -7,23 +7,23 @@
 
 #form {
     -fx-background-color: -fx-white;
-    -fx-padding: 20px;
     -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 10, 10);
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 20, 0, 5, 5);
 }
 
 #form Label {
-    -fx-font-weight: bold;
     -fx-font-size: 16px;
+    -fx-font-weight: bold;
 }
 
 #form TextField,
 #form PasswordField {
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-border-color: -fx-black;
     -fx-border-width: 2px;
     -fx-border-radius: 5px;
-    -fx-font-size: 16px;
 }
 
 #form TextField:focused,
@@ -31,20 +31,19 @@
     -fx-border-color: -fx-primary-600;
     -fx-focus-color: -fx-primary-200;
     -fx-faint-focus-color: -fx-primary-200;
-
 }
 
 #primary-button,
 #secondary-button {
-    -fx-font-weight: bold;
     -fx-font-size: 16px;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
+    -fx-border-color: transparent;
 }
 
 #primary-button {
-    -fx-text-fill: -fx-white;
     -fx-background-color: -fx-black;
-    -fx-border-color: transparent;
+    -fx-text-fill: -fx-white;
 }
 
 #primary-button:hover {
@@ -52,10 +51,9 @@
 }
 
 #secondary-button {
-    -fx-underline: true;
-    -fx-text-fill: -fx-black;
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
+    -fx-text-fill: -fx-black;
+    -fx-underline: true;
 }
 
 #secondary-button:hover {

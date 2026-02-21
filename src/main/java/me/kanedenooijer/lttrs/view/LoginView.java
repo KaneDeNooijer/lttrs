@@ -17,7 +17,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * The LoginView class represents the login screen of the LTTRS application.
+ * Login view shown when no account session is active.
+ * Allows the user to authenticate with their email and password.
  */
 public final class LoginView extends FlowPane {
 
@@ -43,10 +44,8 @@ public final class LoginView extends FlowPane {
         this.passwordField = new PasswordField();
         passwordFieldContainer.getChildren().addAll(passwordLabel, this.passwordField);
 
-        VBox buttonContainer = new VBox(8);
-
         Button loginButton = new Button("Log in");
-        loginButton.setOnAction(_ -> this.login());
+        loginButton.setOnAction(_ -> login());
         loginButton.setMaxWidth(Double.MAX_VALUE);
         loginButton.setId("primary-button");
 
@@ -55,6 +54,7 @@ public final class LoginView extends FlowPane {
         registerButton.setMaxWidth(Double.MAX_VALUE);
         registerButton.setId("secondary-button");
 
+        VBox buttonContainer = new VBox(8);
         buttonContainer.getChildren().addAll(loginButton, registerButton);
 
         form.getChildren().addAll(
@@ -64,38 +64,32 @@ public final class LoginView extends FlowPane {
                 buttonContainer
         );
 
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
         this.setId("view");
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
         this.getChildren().add(form);
     }
 
     /**
-     * Handles the login process when the user clicks the "Log in" button.
-     * It validates the input fields, checks the credentials against the database,
-     * and provides feedback to the user through notifications.
+     * Validates the input fields, verifies the credentials against the database,
+     * and either starts an account session or shows an appropriate notification.
      */
     private void login() {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        AccountDao accountDao = new AccountDao(Main.getConnection());
-
-        // Validate blank fields
         if (email.isBlank() || password.isEmpty()) {
             MainView.getInstance().showNotification(NotificationType.WARNING, "Please fill in all fields.");
             return;
         }
 
-        // Find account by email
+        AccountDao accountDao = new AccountDao(Main.getConnection());
         Optional<Account> account = accountDao.findByEmail(email);
 
-        // Check email and password
         if (account.isEmpty() || !account.get().password().equals(password)) {
             MainView.getInstance().showNotification(NotificationType.ERROR, "Invalid email or password. Please try again.");
             return;
         }
 
-        // Login successful
         AccountSession.getInstance().login(account.get());
         MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged in.");
         MainView.getInstance().switchView(new DashboardView());

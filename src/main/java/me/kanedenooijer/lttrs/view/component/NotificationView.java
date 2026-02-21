@@ -13,7 +13,8 @@ import me.kanedenooijer.lttrs.type.NotificationType;
 import java.util.Objects;
 
 /**
- * A simple notification component that displays a message with an icon and a close button.
+ * Notification component that displays a typed message with an icon and a dismiss button.
+ * Automatically dismisses itself after 4 seconds with a fade-out animation.
  */
 public final class NotificationView extends HBox {
 
@@ -22,35 +23,35 @@ public final class NotificationView extends HBox {
         this.setMaxWidth(450);
         this.setMaxHeight(75);
         this.getStyleClass().add(type.name().toLowerCase());
-
-        ImageView icon = getIcon(type);
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/notification.css")).toExternalForm());
 
         Label text = new Label(message);
         text.setId("notification-text");
         text.setWrapText(true);
 
-        Button close = new Button("dismiss");
-        close.setId("notification-close");
-        close.setOnAction(_ -> dismiss());
+        Button dismissButton = new Button("dismiss");
+        dismissButton.setId("notification-dismiss");
+        dismissButton.setOnAction(_ -> dismiss());
 
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/notification.css")).toExternalForm());
-        this.getChildren().addAll(icon, text, close);
+        this.getChildren().addAll(buildIcon(type), text, dismissButton);
 
-        // Auto dismiss after 4 seconds
         PauseTransition pause = new PauseTransition(Duration.seconds(4));
         pause.setOnFinished(_ -> dismiss());
         pause.play();
+
+        this.setOnMouseEntered(_ -> pause.pause());
+        this.setOnMouseExited(_ -> pause.playFromStart());
     }
 
     /**
-     * Get the icon for the given notification type.
+     * Builds the icon for the given notification type.
      *
-     * @param type The type of the notification.
-     * @return An ImageView containing the icon for the notification type.
+     * @param type the notification type
+     * @return an ImageView containing the corresponding icon
      */
-    private ImageView getIcon(NotificationType type) {
+    private ImageView buildIcon(NotificationType type) {
         return new ImageView(Objects.requireNonNull(
-                this.getClass().getResource(String.format(
+                getClass().getResource(String.format(
                         "/me/kanedenooijer/lttrs/image/%s.png",
                         type.name().toLowerCase()
                 ))).toExternalForm()
@@ -58,7 +59,7 @@ public final class NotificationView extends HBox {
     }
 
     /**
-     * Dismiss the notification with a fade-out animation and remove it from the parent pane.
+     * Fades out the notification and removes it from its parent pane.
      */
     private void dismiss() {
         FadeTransition fade = new FadeTransition(Duration.millis(200), this);
@@ -70,4 +71,5 @@ public final class NotificationView extends HBox {
         });
         fade.play();
     }
+
 }
