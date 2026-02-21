@@ -15,9 +15,9 @@ import java.util.Objects;
 /**
  * A simple notification component that displays a message with an icon and a close button.
  */
-public final class Notification extends HBox {
+public final class NotificationView extends HBox {
 
-    public Notification(NotificationType type, String message) {
+    public NotificationView(NotificationType type, String message) {
         this.setId("notification");
         this.setMaxWidth(450);
         this.setMaxHeight(75);
@@ -29,7 +29,7 @@ public final class Notification extends HBox {
         text.setId("notification-text");
         text.setWrapText(true);
 
-        Button close = new Button("X");
+        Button close = new Button("dismiss");
         close.setId("notification-close");
         close.setOnAction(_ -> dismiss());
 

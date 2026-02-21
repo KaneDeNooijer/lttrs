@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import me.kanedenooijer.lttrs.Main;
 import me.kanedenooijer.lttrs.database.dao.AccountDao;
 import me.kanedenooijer.lttrs.database.entity.Account;
+import me.kanedenooijer.lttrs.model.AccountSession;
 import me.kanedenooijer.lttrs.type.NotificationType;
 
 import java.util.Objects;
@@ -88,19 +89,15 @@ public final class LoginView extends FlowPane {
         // Find account by email
         Optional<Account> account = accountDao.findByEmail(email);
 
-        if (account.isEmpty()) {
-            MainView.getInstance().showNotification(NotificationType.ERROR, "No account found with this email.");
-            return;
-        }
-
-        // Check password
-        if (!account.get().password().equals(password)) {
-            MainView.getInstance().showNotification(NotificationType.ERROR, "Incorrect password.");
+        // Check email and password
+        if (account.isEmpty() || !account.get().password().equals(password)) {
+            MainView.getInstance().showNotification(NotificationType.ERROR, "Invalid email or password. Please try again.");
             return;
         }
 
         // Login successful
-        MainView.getInstance().showNotification(NotificationType.SUCCESS, "Logged in successfully.");
+        AccountSession.getInstance().login(account.get());
+        MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged in.");
         MainView.getInstance().switchView(new DashboardView());
     }
 

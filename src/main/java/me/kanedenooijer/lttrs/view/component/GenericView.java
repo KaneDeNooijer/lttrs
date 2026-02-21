@@ -1,15 +1,17 @@
 package me.kanedenooijer.lttrs.view.component;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import me.kanedenooijer.lttrs.model.AccountSession;
+import me.kanedenooijer.lttrs.type.NotificationType;
+import me.kanedenooijer.lttrs.view.DashboardView;
+import me.kanedenooijer.lttrs.view.LoginView;
+import me.kanedenooijer.lttrs.view.MainView;
 
 import java.util.Objects;
 
-/**
- * A generic view that can be extended by other views in the application,
- * it provides the top and left bar for the application.
- */
 public abstract class GenericView extends BorderPane {
 
     public GenericView() {
@@ -24,60 +26,27 @@ public abstract class GenericView extends BorderPane {
         Region navbarSpacer = new Region();
         HBox.setHgrow(navbarSpacer, Priority.ALWAYS);
 
-        Label fullName = new Label("Full Name");
+        Label fullName = new Label(AccountSession.getInstance().getAccount().fullName());
 
         topBar.getChildren().addAll(logo, navbarSpacer, fullName);
 
         VBox leftBar = new VBox();
         leftBar.setId("left-bar");
 
-        HBox dashboardItem = new HBox();
-        ImageView dashboardIcon = new ImageView(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/image/dashboard.png")).toExternalForm());
-        dashboardIcon.setFitWidth(32);
-        dashboardIcon.setFitHeight(32);
-        dashboardIcon.setPreserveRatio(true);
-        Label dashboardLabel = new Label("Dashboard");
-        dashboardItem.getStyleClass().add("sidebar-item");
-        dashboardItem.getChildren().addAll(dashboardIcon, dashboardLabel);
+        Button dashboardItem = createSidebarItem("/me/kanedenooijer/lttrs/image/dashboard.png", "Dashboard");
+        Button registrationItem = createSidebarItem("/me/kanedenooijer/lttrs/image/calendar.png", "Registrations");
+        Button leaveItem = createSidebarItem("/me/kanedenooijer/lttrs/image/baggage.png", "Leaves");
+        Button adminItem = createSidebarItem("/me/kanedenooijer/lttrs/image/sliders.png", "Admin");
+        Button logoutItem = createSidebarItem("/me/kanedenooijer/lttrs/image/arrow-left.png", "Log out");
 
-        HBox registrationItem = new HBox();
-        ImageView registrationIcon = new ImageView(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/image/calendar.png")).toExternalForm());
-        registrationIcon.setFitWidth(32);
-        registrationIcon.setFitHeight(32);
-        registrationIcon.setPreserveRatio(true);
-        Label registrationLabel = new Label("Registrations");
-        registrationItem.getStyleClass().add("sidebar-item");
-        registrationItem.getChildren().addAll(registrationIcon, registrationLabel);
-
-        HBox leaveItem = new HBox();
-        ImageView leaveIcon = new ImageView(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/image/baggage.png")).toExternalForm());
-        leaveIcon.setFitWidth(32);
-        leaveIcon.setFitHeight(32);
-        leaveIcon.setPreserveRatio(true);
-        Label leaveLabel = new Label("Leaves");
-        leaveItem.getStyleClass().add("sidebar-item");
-        leaveItem.getChildren().addAll(leaveIcon, leaveLabel);
-
-        HBox adminItem = new HBox();
-        ImageView adminIcon = new ImageView(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/image/sliders.png")).toExternalForm());
-        adminIcon.setFitWidth(32);
-        adminIcon.setFitHeight(32);
-        adminIcon.setPreserveRatio(true);
-        Label adminLabel = new Label("Admin");
-        adminItem.getStyleClass().add("sidebar-item");
-        adminItem.getChildren().addAll(adminIcon, adminLabel);
+        dashboardItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        registrationItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        leaveItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        adminItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        logoutItem.setOnAction(_ -> this.logout());
 
         Region sidebarSpacer = new Region();
         VBox.setVgrow(sidebarSpacer, Priority.ALWAYS);
-
-        HBox logoutItem = new HBox();
-        ImageView logoutIcon = new ImageView(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/image/arrow-left.png")).toExternalForm());
-        logoutIcon.setFitWidth(32);
-        logoutIcon.setFitHeight(32);
-        logoutIcon.setPreserveRatio(true);
-        Label logoutLabel = new Label("Log out");
-        logoutItem.getStyleClass().add("sidebar-item");
-        logoutItem.getChildren().addAll(logoutIcon, logoutLabel);
 
         leftBar.getChildren().addAll(dashboardItem, registrationItem, leaveItem, adminItem, sidebarSpacer, logoutItem);
 
@@ -86,4 +55,21 @@ public abstract class GenericView extends BorderPane {
         this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/generic.css")).toExternalForm());
     }
 
+    private Button createSidebarItem(String iconPath, String text) {
+        ImageView icon = new ImageView(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm());
+        icon.setFitWidth(32);
+        icon.setFitHeight(32);
+        icon.setPreserveRatio(true);
+
+        Button button = new Button(text, icon);
+        button.getStyleClass().add("sidebar-item");
+
+        return button;
+    }
+
+    private void logout() {
+        AccountSession.getInstance().logout();
+        MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged out.");
+        MainView.getInstance().switchView(new LoginView());
+    }
 }

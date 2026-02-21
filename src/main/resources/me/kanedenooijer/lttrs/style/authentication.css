@@ -9,9 +9,6 @@
     -fx-background-color: -fx-white;
     -fx-padding: 20px;
     -fx-background-radius: 10px;
-    -fx-border-color: -fx-black;
-    -fx-border-width: 3px;
-    -fx-border-radius: 8px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0, 10, 10);
 }
 
@@ -37,12 +34,17 @@
 
 }
 
-#primary-button {
+#primary-button,
+#secondary-button {
     -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+#primary-button {
     -fx-text-fill: -fx-white;
     -fx-background-color: -fx-black;
     -fx-border-color: transparent;
-    -fx-font-size: 16px;
 }
 
 #primary-button:hover {
@@ -50,12 +52,10 @@
 }
 
 #secondary-button {
-    -fx-font-weight: bold;
     -fx-underline: true;
     -fx-text-fill: -fx-black;
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-font-size: 16px;
 }
 
 #secondary-button:hover {
