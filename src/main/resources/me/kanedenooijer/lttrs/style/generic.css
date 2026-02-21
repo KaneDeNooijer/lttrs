@@ -1,0 +1,48 @@
+@import "main.css";
+
+#navbar {
+    -fx-background-color: -fx-primary-600;
+    -fx-effect: dropshadow(gaussian, -fx-black, 20, 0, 0, 0);
+    -fx-padding: 20px;
+    -fx-alignment: center-left;
+    -fx-view-order: -1;
+}
+
+#navbar Label {
+    -fx-text-fill: -fx-white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-graphic-text-gap: 10px;
+}
+
+#account-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+#account-initials {
+    -fx-background-color: -fx-primary-500;
+    -fx-background-radius: 10px;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 15px 10px 15px 10px;
+}
+
+#sidebar {
+    -fx-background-color: -fx-primary-500;
+    -fx-effect: dropshadow(gaussian, -fx-black, 20, 0, 0, 0);
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+
+#sidebar .sidebar-item {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-alignment: center-left;
+    -fx-spacing: 10px;
+    -fx-cursor: hand;
+    -fx-text-fill: -fx-white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}

@@ -16,7 +16,7 @@ import me.kanedenooijer.lttrs.type.NotificationType;
 import java.util.Objects;
 
 /**
- * The RegisterView class represents the user interface for the registration screen of the application.
+ * Registration view allowing new users to create an account.
  */
 public final class RegisterView extends FlowPane {
 
@@ -48,8 +48,6 @@ public final class RegisterView extends FlowPane {
         this.passwordField = new PasswordField();
         passwordFieldContainer.getChildren().addAll(passwordLabel, this.passwordField);
 
-        VBox buttonContainer = new VBox(8);
-
         Button registerButton = new Button("Sign up");
         registerButton.setOnAction(_ -> register());
         registerButton.setMaxWidth(Double.MAX_VALUE);
@@ -60,6 +58,7 @@ public final class RegisterView extends FlowPane {
         loginButton.setMaxWidth(Double.MAX_VALUE);
         loginButton.setId("secondary-button");
 
+        VBox buttonContainer = new VBox(8);
         buttonContainer.getChildren().addAll(registerButton, loginButton);
 
         form.getChildren().addAll(
@@ -70,40 +69,38 @@ public final class RegisterView extends FlowPane {
                 buttonContainer
         );
 
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
         this.setId("view");
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
         this.getChildren().add(form);
     }
 
+    /**
+     * Validates the input fields, checks whether the email is already in use,
+     * and creates a new account or shows an appropriate notification.
+     */
     private void register() {
-        // Trim input values to prevent accidental spaces
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        // Create DAO instance for database operations
-        AccountDao accountDao = new AccountDao(Main.getConnection());
-
-        // Validate blank fields
         if (name.isBlank() || email.isBlank() || password.isBlank()) {
             MainView.getInstance().showNotification(NotificationType.WARNING, "Please fill in all fields.");
             return;
         }
 
-        // Validate if email is already in use
+        AccountDao accountDao = new AccountDao(Main.getConnection());
+
         if (accountDao.findByEmail(email).isPresent()) {
             MainView.getInstance().showNotification(NotificationType.WARNING, "An account with this email already exists.");
             return;
         }
 
-        // Check if the account was created successfully
         if (accountDao.create(new Account(name, email, password, AccountRole.USER)).isPresent()) {
             MainView.getInstance().showNotification(NotificationType.SUCCESS, "Account created! You can now log in.");
             MainView.getInstance().switchView(new LoginView());
             return;
         }
 
-        // If we reach this point, something went wrong during account creation
         MainView.getInstance().showNotification(NotificationType.ERROR, "An error occurred while creating your account. Please try again.");
     }
 
