@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.Optional;
 
 /**
- * DAO for managing hour registrations in the database.
+ * DAO for managing registrations in the database.
  */
 public final class RegistrationDao extends GenericDao<Registration> {
 
@@ -14,11 +14,6 @@ public final class RegistrationDao extends GenericDao<Registration> {
         super(connection, "registrations");
     }
 
-    /**
-     * Maps a result set row to a Registration entity.
-     *
-     * @param resultSet the result set to map
-     */
     @Override
     protected Registration mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return new Registration(
@@ -29,19 +24,15 @@ public final class RegistrationDao extends GenericDao<Registration> {
         );
     }
 
-    /**
-     * Inserts a new registration into the database.
-     *
-     * @param entity the registration to create
-     */
     @Override
     public Optional<Registration> create(Registration entity) throws RuntimeException {
-        String sql = "INSERT INTO `registrations` (`account_id`, `hours`, `date`) VALUES (?, ?, ?)";
+        String query = "INSERT INTO `registrations` (`account_id`, `hours`, `date`) VALUES (?, ?, ?)";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, entity.accountId());
             statement.setInt(2, entity.hours());
             statement.setDate(3, Date.valueOf(entity.date()));
+
             statement.executeUpdate();
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -54,30 +45,25 @@ public final class RegistrationDao extends GenericDao<Registration> {
                     ));
                 }
             }
-
-            return Optional.empty();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create registration.", e);
+            throw new RuntimeException(String.format("Failed to create registration: %s", e.getMessage()), e);
         }
+
+        return Optional.empty();
     }
 
-    /**
-     * Updates an existing registration in the database.
-     *
-     * @param entity the registration to update
-     */
     @Override
     public boolean update(Registration entity) throws RuntimeException {
-        String sql = "UPDATE `registrations` SET `hours` = ?, `date` = ? WHERE `id` = ?";
+        String query = "UPDATE `registrations` SET `hours` = ?, `date` = ? WHERE `id` = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, entity.hours());
             statement.setDate(2, Date.valueOf(entity.date()));
             statement.setInt(3, entity.id());
 
             return statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update registration.", e);
+            throw new RuntimeException(String.format("Failed to update registration: %s", e.getMessage()), e);
         }
     }
 
