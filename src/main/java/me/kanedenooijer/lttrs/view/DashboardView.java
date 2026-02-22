@@ -4,6 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import me.kanedenooijer.lttrs.model.AccountSession;
+import me.kanedenooijer.lttrs.view.generic.GenericView;
 
 import java.util.Objects;
 

@@ -1,10 +1,11 @@
-package me.kanedenooijer.lttrs.view;
+package me.kanedenooijer.lttrs.view.generic;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import me.kanedenooijer.lttrs.type.NotificationType;
+import me.kanedenooijer.lttrs.view.LoginView;
 import me.kanedenooijer.lttrs.view.component.NotificationComponent;
 
 /**

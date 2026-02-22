@@ -11,7 +11,7 @@ public final class CardComponent extends StackPane {
 
     public CardComponent() {
         this.getStyleClass().add("card");
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/components/card.css")).toExternalForm());
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/component/card.css")).toExternalForm());
     }
 
 }

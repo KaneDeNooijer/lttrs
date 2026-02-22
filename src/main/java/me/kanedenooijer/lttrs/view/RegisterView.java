@@ -12,6 +12,7 @@ import me.kanedenooijer.lttrs.database.entity.Account;
 import me.kanedenooijer.lttrs.model.DatabaseConnection;
 import me.kanedenooijer.lttrs.type.AccountRole;
 import me.kanedenooijer.lttrs.type.NotificationType;
+import me.kanedenooijer.lttrs.view.generic.MainView;
 
 import java.util.Objects;
 

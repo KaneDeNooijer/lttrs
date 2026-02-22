@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import me.kanedenooijer.lttrs.model.DatabaseConnection;
-import me.kanedenooijer.lttrs.view.MainView;
+import me.kanedenooijer.lttrs.view.generic.MainView;
 
 /**
  * The main entry point for the LTTRS application.
