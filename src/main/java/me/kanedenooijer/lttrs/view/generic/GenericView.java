@@ -7,10 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import me.kanedenooijer.lttrs.model.AccountSession;
 import me.kanedenooijer.lttrs.type.NotificationType;
-import me.kanedenooijer.lttrs.view.DashboardView;
-import me.kanedenooijer.lttrs.view.HourRegistrationsView;
-import me.kanedenooijer.lttrs.view.LeavesView;
-import me.kanedenooijer.lttrs.view.LoginView;
+import me.kanedenooijer.lttrs.view.*;
 
 import java.util.Objects;
 
@@ -75,15 +72,15 @@ public abstract class GenericView extends BorderPane {
         sidebar.setId("sidebar");
 
         Button dashboardItem = createSidebarItem("/me/kanedenooijer/lttrs/image/dashboard.png", "Dashboard");
+        Button contractItem = createSidebarItem("/me/kanedenooijer/lttrs/image/notebook.png", "Contracts");
         Button hourRegistrationItem = createSidebarItem("/me/kanedenooijer/lttrs/image/calendar.png", "Registrations");
         Button leaveItem = createSidebarItem("/me/kanedenooijer/lttrs/image/baggage.png", "Leaves");
-        Button adminItem = createSidebarItem("/me/kanedenooijer/lttrs/image/sliders.png", "Admin");
         Button logoutItem = createSidebarItem("/me/kanedenooijer/lttrs/image/arrow-left.png", "Log out");
 
         dashboardItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        contractItem.setOnAction(_ -> MainView.getInstance().switchView(new ContractsView()));
         hourRegistrationItem.setOnAction(_ -> MainView.getInstance().switchView(new HourRegistrationsView()));
         leaveItem.setOnAction(_ -> MainView.getInstance().switchView(new LeavesView()));
-        adminItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
         logoutItem.setOnAction(_ -> {
             AccountSession.logout();
             MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged out.");
@@ -93,7 +90,7 @@ public abstract class GenericView extends BorderPane {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        sidebar.getChildren().addAll(dashboardItem, hourRegistrationItem, leaveItem, adminItem, spacer, logoutItem);
+        sidebar.getChildren().addAll(dashboardItem, contractItem, hourRegistrationItem, leaveItem, spacer, logoutItem);
 
         return sidebar;
     }

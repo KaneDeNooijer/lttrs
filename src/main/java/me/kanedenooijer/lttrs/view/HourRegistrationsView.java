@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
-import me.kanedenooijer.lttrs.database.dao.GenericDao;
 import me.kanedenooijer.lttrs.database.dao.RegistrationDao;
 import me.kanedenooijer.lttrs.database.entity.Registration;
 import me.kanedenooijer.lttrs.model.AccountSession;
@@ -29,11 +28,6 @@ public final class HourRegistrationsView extends CrudView<Registration> {
     @Override
     protected String getTitle() {
         return "Registration";
-    }
-
-    @Override
-    protected GenericDao<Registration> getDao() {
-        return registrationDao;
     }
 
     @Override

@@ -3,25 +3,30 @@ package me.kanedenooijer.lttrs.view.dialog;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import me.kanedenooijer.lttrs.database.entity.Leave;
+import javafx.scene.control.TextField;
+import me.kanedenooijer.lttrs.database.entity.Contract;
 
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Dialog for adding or editing a leave.
+ * Dialog for adding or editing a contract.
  */
-public final class LeaveDialog extends CrudDialog<Leave> {
+public final class ContractDialog extends CrudDialog<Contract> {
 
+    private TextField hoursField;
     private DatePicker startDatePicker;
     private DatePicker endDatePicker;
 
-    public LeaveDialog(Leave existing) {
-        super(existing, "Leave");
+    public ContractDialog(Contract existing) {
+        super(existing, "Contract");
     }
 
     @Override
     protected List<Node> buildFields() {
+        hoursField = new TextField();
+        hoursField.setPromptText("Hours per week");
+
         startDatePicker = new DatePicker();
         startDatePicker.setPromptText("Start date");
 
@@ -29,25 +34,31 @@ public final class LeaveDialog extends CrudDialog<Leave> {
         endDatePicker.setPromptText("End date");
 
         return List.of(
+                new Label("Hours per week:"), hoursField,
                 new Label("Start date:"), startDatePicker,
                 new Label("End date:"), endDatePicker
         );
     }
 
     @Override
-    protected void populateFields(Leave existing) {
+    protected void populateFields(Contract existing) {
+        hoursField.setText(String.valueOf(existing.hours()));
         startDatePicker.setValue(existing.startDate());
         endDatePicker.setValue(existing.endDate());
     }
 
     @Override
-    protected Leave buildResult() {
+    protected Contract buildResult() {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
         if (startDate == null || endDate == null || endDate.isBefore(startDate)) return null;
 
-        return new Leave(0, 0, startDate, endDate);
+        try {
+            return new Contract(0, 0, Integer.parseInt(hoursField.getText().trim()), startDate, endDate);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
 }
