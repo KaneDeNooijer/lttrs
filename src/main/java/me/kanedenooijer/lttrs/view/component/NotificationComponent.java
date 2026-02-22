@@ -23,7 +23,7 @@ public final class NotificationComponent extends HBox {
         this.setMaxWidth(450);
         this.setMaxHeight(75);
         this.getStyleClass().add(type.name().toLowerCase());
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/components/notification.css")).toExternalForm());
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/component/notification.css")).toExternalForm());
 
         Label text = new Label(message);
         text.setId("notification-text");

@@ -1,4 +1,4 @@
-package me.kanedenooijer.lttrs.view;
+package me.kanedenooijer.lttrs.view.generic;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -7,6 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import me.kanedenooijer.lttrs.model.AccountSession;
 import me.kanedenooijer.lttrs.type.NotificationType;
+import me.kanedenooijer.lttrs.view.DashboardView;
+import me.kanedenooijer.lttrs.view.HourRegistrationsView;
+import me.kanedenooijer.lttrs.view.LeavesView;
+import me.kanedenooijer.lttrs.view.LoginView;
 
 import java.util.Objects;
 
@@ -78,7 +82,7 @@ public abstract class GenericView extends BorderPane {
 
         dashboardItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
         hourRegistrationItem.setOnAction(_ -> MainView.getInstance().switchView(new HourRegistrationsView()));
-        leaveItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        leaveItem.setOnAction(_ -> MainView.getInstance().switchView(new LeavesView()));
         adminItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
         logoutItem.setOnAction(_ -> {
             AccountSession.logout();
@@ -129,4 +133,5 @@ public abstract class GenericView extends BorderPane {
 
         return center;
     }
+
 }
