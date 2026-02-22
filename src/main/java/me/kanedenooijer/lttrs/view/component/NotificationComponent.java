@@ -16,14 +16,14 @@ import java.util.Objects;
  * Notification component that displays a typed message with an icon and a dismiss button.
  * Automatically dismisses itself after 4 seconds with a fade-out animation.
  */
-public final class NotificationView extends HBox {
+public final class NotificationComponent extends HBox {
 
-    public NotificationView(NotificationType type, String message) {
+    public NotificationComponent(NotificationType type, String message) {
         this.setId("notification");
         this.setMaxWidth(450);
         this.setMaxHeight(75);
         this.getStyleClass().add(type.name().toLowerCase());
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/notification.css")).toExternalForm());
+        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/components/notification.css")).toExternalForm());
 
         Label text = new Label(message);
         text.setId("notification-text");

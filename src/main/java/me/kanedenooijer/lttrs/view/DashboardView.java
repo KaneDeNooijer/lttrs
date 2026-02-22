@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import me.kanedenooijer.lttrs.model.AccountSession;
-import me.kanedenooijer.lttrs.view.component.GenericView;
 
 import java.util.Objects;
 
@@ -15,8 +14,6 @@ import java.util.Objects;
 public final class DashboardView extends GenericView {
 
     public DashboardView() {
-        super();
-
         FlowPane dashboard = new FlowPane();
         dashboard.setId("dashboard");
 
@@ -31,7 +28,7 @@ public final class DashboardView extends GenericView {
      */
     private HBox buildWelcomeBox() {
         Label welcomeLabel = new Label("Welcome back ");
-        Label nameLabel = new Label(AccountSession.getInstance().getAccount().firstName());
+        Label nameLabel = new Label(AccountSession.getAccount().firstName());
         Label exclamationLabel = new Label("!");
 
         nameLabel.setId("dashboard-name");

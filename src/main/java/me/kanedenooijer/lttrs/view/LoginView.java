@@ -7,10 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import me.kanedenooijer.lttrs.Main;
 import me.kanedenooijer.lttrs.database.dao.AccountDao;
 import me.kanedenooijer.lttrs.database.entity.Account;
 import me.kanedenooijer.lttrs.model.AccountSession;
+import me.kanedenooijer.lttrs.model.DatabaseConnection;
 import me.kanedenooijer.lttrs.type.NotificationType;
 
 import java.util.Objects;
@@ -82,7 +82,7 @@ public final class LoginView extends FlowPane {
             return;
         }
 
-        AccountDao accountDao = new AccountDao(Main.getConnection());
+        AccountDao accountDao = new AccountDao(DatabaseConnection.getConnection());
         Optional<Account> account = accountDao.findByEmail(email);
 
         if (account.isEmpty() || !account.get().password().equals(password)) {
@@ -90,7 +90,7 @@ public final class LoginView extends FlowPane {
             return;
         }
 
-        AccountSession.getInstance().login(account.get());
+        AccountSession.login(account.get());
         MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged in.");
         MainView.getInstance().switchView(new DashboardView());
     }
