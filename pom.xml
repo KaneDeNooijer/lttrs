@@ -68,7 +68,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>me.kanedenooijer.lttrs/me.kanedenooijer.lttrs.Main</mainClass>
+                            <mainClass>me.kanedenooijer.lttrs/me.kanedenooijer.lttrs.Application</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

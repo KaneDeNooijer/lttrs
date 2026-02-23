@@ -15,18 +15,17 @@ import java.util.Objects;
  * Abstract base view that all application views extend.
  * Provides the shared navbar and sidebar.
  */
-public abstract class GenericView extends BorderPane {
+public abstract class BaseView extends BorderPane {
 
     /**
      * The center pane where specific view content is displayed.
      */
     protected StackPane center;
 
-    public GenericView() {
+    public BaseView() {
         this.setTop(this.buildNavbar());
         this.setLeft(this.buildSidebar());
         this.setCenter(this.center = this.buildCenter());
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/generic.css")).toExternalForm());
     }
 
     /**
@@ -47,7 +46,6 @@ public abstract class GenericView extends BorderPane {
 
         Button button = new Button();
         button.setGraphic(fullName);
-        button.getStyleClass().add("button");
         button.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
 
         Region spacer = new Region();

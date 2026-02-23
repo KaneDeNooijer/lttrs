@@ -24,7 +24,6 @@ public abstract class CrudDialog<T> extends Dialog<T> {
         ButtonType saveButtonType = new ButtonType(isEdit ? "Save" : "Add", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        // Fields are built here so subclass field initializers have already run
         VBox content = new VBox(10);
         content.getChildren().addAll(buildFields());
         this.getDialogPane().setContent(content);
