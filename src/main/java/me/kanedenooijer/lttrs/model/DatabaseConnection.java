@@ -11,9 +11,13 @@ public final class DatabaseConnection {
 
     private static final Connection connection;
 
+    private static final String URL = "jdbc:mysql://localhost:3306/lttrs";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
+
     static {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/lttrs", "root", "");
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to establish database connection.", e);
         }
