@@ -62,7 +62,7 @@ public abstract class GenericDao<T extends Record> {
      * @throws RuntimeException if a database access error occurs
      */
     public Optional<T> find(int id) throws RuntimeException {
-        String query = String.format("SELECT * FROM %s WHERE id = ?", tableName);
+        String query = String.format("SELECT * FROM %s WHERE id = ? LIMIT 1", tableName);
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setObject(1, id);
