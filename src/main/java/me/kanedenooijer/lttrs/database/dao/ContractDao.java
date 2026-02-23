@@ -71,4 +71,27 @@ public final class ContractDao extends GenericDao<Contract> {
         }
     }
 
+    /**
+     * Finds the active contract for the given account based on the current date.
+     *
+     * @param accountId the account to find the active contract for
+     */
+    public Optional<Contract> findActive(int accountId) {
+        String query = "SELECT * FROM `contracts` WHERE `account_id` = ? AND `start_date` <= NOW() AND `end_date` >= NOW() LIMIT 1";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, accountId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapResultSetToEntity(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Failed to find active contract: %s", e.getMessage()), e);
+        }
+
+        return Optional.empty();
+    }
+
 }

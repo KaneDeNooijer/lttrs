@@ -67,4 +67,27 @@ public final class RegistrationDao extends GenericDao<Registration> {
         }
     }
 
+    /**
+     * Returns the total hours worked this week for the given account.
+     *
+     * @param accountId the account to sum hours for
+     */
+    public int sumHoursThisWeek(int accountId) {
+        String query = "SELECT COALESCE(SUM(`hours`), 0) AS worked_hours FROM `registrations` WHERE `account_id` = ? AND WEEK(`date`) = WEEK(NOW()) AND YEAR(`date`) = YEAR(NOW())";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, accountId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("worked_hours");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(String.format("Failed to sum hours this week: %s", e.getMessage()), e);
+        }
+
+        return 0;
+    }
+
 }
