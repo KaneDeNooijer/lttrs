@@ -1,18 +1,9 @@
-@import "main.css";
-
-#dashboard {
-    -fx-padding: 20px;
-}
-
 #dashboard-name {
     -fx-text-fill: -fx-primary-500;
-    -fx-font-size: 42px;
-    -fx-font-weight: bolder;
 }
 
 #dashboard-no-contract {
-    -fx-text-fill: gray;
-    -fx-font-size: 14px;
+    -fx-text-fill: -fx-secondary-500;
 }
 
 #workload-meter {
@@ -33,9 +24,4 @@
 #workload-meter.workload-high .bar {
     -fx-background-color: #ef4444;
     -fx-background-radius: 10px;
-}
-
-#workload-hours {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
 }

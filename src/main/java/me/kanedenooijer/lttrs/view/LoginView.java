@@ -23,51 +23,74 @@ import java.util.Optional;
  */
 public final class LoginView extends FlowPane {
 
-    private final TextField emailField;
-    private final PasswordField passwordField;
+    private TextField emailField;
+    private PasswordField passwordField;
 
     public LoginView() {
-        VBox form = new VBox(18);
-        form.setId("form");
+        this.setId("view");
+        this.getChildren().add(this.buildForm());
+    }
+
+    /**
+     * Builds the login form containing the logo, input fields and action buttons.
+     */
+    private VBox buildForm() {
+        VBox parent = new VBox(18);
+        parent.setId("form");
 
         ImageView logo = new ImageView(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/image/logo-black.png")).toExternalForm());
         logo.setFitWidth(400);
         logo.setFitHeight(400);
         logo.setPreserveRatio(true);
 
-        VBox emailFieldContainer = new VBox(2);
-        Label emailLabel = new Label("Email:");
-        this.emailField = new TextField();
-        emailFieldContainer.getChildren().addAll(emailLabel, this.emailField);
+        parent.getChildren().addAll(logo, this.buildEmailField(), this.buildPasswordField(), this.buildButtonContainer());
 
-        VBox passwordFieldContainer = new VBox(2);
-        Label passwordLabel = new Label("Password:");
+        return parent;
+    }
+
+    /**
+     * Builds the email input field with its label.
+     */
+    private VBox buildEmailField() {
+        VBox parent = new VBox(2);
+
+        this.emailField = new TextField();
+        parent.getChildren().addAll(new Label("Email:"), this.emailField);
+
+        return parent;
+    }
+
+    /**
+     * Builds the password input field with its label.
+     */
+    private VBox buildPasswordField() {
+        VBox parent = new VBox(2);
+
         this.passwordField = new PasswordField();
-        passwordFieldContainer.getChildren().addAll(passwordLabel, this.passwordField);
+        parent.getChildren().addAll(new Label("Password:"), this.passwordField);
+
+        return parent;
+    }
+
+    /**
+     * Builds the container with the login and register buttons.
+     */
+    private VBox buildButtonContainer() {
+        VBox parent = new VBox(8);
 
         Button loginButton = new Button("Log in");
-        loginButton.setOnAction(_ -> login());
+        loginButton.getStyleClass().add("primary-button");
         loginButton.setMaxWidth(Double.MAX_VALUE);
-        loginButton.setId("primary-button");
+        loginButton.setOnAction(_ -> this.login());
 
         Button registerButton = new Button("Don't have an account? Sign up.");
-        registerButton.setOnAction(_ -> MainView.getInstance().switchView(new RegisterView()));
+        registerButton.getStyleClass().add("secondary-button");
         registerButton.setMaxWidth(Double.MAX_VALUE);
-        registerButton.setId("secondary-button");
+        registerButton.setOnAction(_ -> MainView.getInstance().switchView(new RegisterView()));
 
-        VBox buttonContainer = new VBox(8);
-        buttonContainer.getChildren().addAll(loginButton, registerButton);
+        parent.getChildren().addAll(loginButton, registerButton);
 
-        form.getChildren().addAll(
-                logo,
-                emailFieldContainer,
-                passwordFieldContainer,
-                buttonContainer
-        );
-
-        this.setId("view");
-        this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/authentication.css")).toExternalForm());
-        this.getChildren().add(form);
+        return parent;
     }
 
     /**
@@ -75,8 +98,8 @@ public final class LoginView extends FlowPane {
      * and either starts an account session or shows an appropriate notification.
      */
     private void login() {
-        String email = emailField.getText().trim();
-        String password = passwordField.getText();
+        String email = this.emailField.getText().trim();
+        String password = this.passwordField.getText();
 
         if (email.isBlank() || password.isEmpty()) {
             MainView.getInstance().showNotification(NotificationType.WARNING, "Please fill in all fields.");

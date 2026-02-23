@@ -4,12 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import me.kanedenooijer.lttrs.database.dao.GenericDao;
 import me.kanedenooijer.lttrs.type.NotificationType;
-import me.kanedenooijer.lttrs.view.component.CardComponent;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ import java.util.List;
  *
  * @param <T> the entity type being managed
  */
-public abstract class CrudView<T extends Record> extends GenericView {
+public abstract class CrudView<T extends Record> extends BaseView {
 
     private final ObservableList<T> items = FXCollections.observableArrayList();
     private final GenericDao<T> dao;
@@ -29,13 +26,13 @@ public abstract class CrudView<T extends Record> extends GenericView {
 
         VBox content = new VBox(20);
 
-        CardComponent tableCard = buildTableCard();
+        VBox tableCard = buildTableCard();
         VBox.setVgrow(tableCard, Priority.ALWAYS);
 
         content.getChildren().add(tableCard);
         VBox.setVgrow(content, Priority.ALWAYS);
 
-        this.centerPane.getChildren().add(content);
+        this.center.getChildren().add(content);
 
         items.setAll(dao.findAll());
     }
@@ -43,18 +40,22 @@ public abstract class CrudView<T extends Record> extends GenericView {
     /**
      * Builds the table card with a header and action columns.
      */
-    private CardComponent buildTableCard() {
-        CardComponent card = new CardComponent();
-
+    private VBox buildTableCard() {
         Label title = new Label(getTitle());
-        title.getStyleClass().add("card-title");
+        title.getStyleClass().add("title");
 
         Button addButton = new Button("Add " + getTitle());
         addButton.getStyleClass().add("primary-button");
         addButton.setOnAction(_ -> openDialog(null));
 
-        HBox header = new HBox(10, title, addButton);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox header = new HBox(10, title, spacer, addButton);
         header.setAlignment(Pos.CENTER_LEFT);
+
+        StackPane card = new StackPane();
+        card.getStyleClass().add("card");
 
         TableView<T> table = new TableView<>(items);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
@@ -63,12 +64,12 @@ public abstract class CrudView<T extends Record> extends GenericView {
         table.getColumns().addAll(buildColumns());
         table.getColumns().add(buildActionsColumn());
 
-        VBox content = new VBox(10);
-        VBox.setVgrow(table, Priority.ALWAYS);
-        content.getChildren().addAll(header, table);
+        card.getChildren().add(table);
 
-        card.getChildren().add(content);
-        return card;
+        VBox parent = new VBox(10, header, card);
+        VBox.setVgrow(card, Priority.ALWAYS);
+
+        return parent;
     }
 
     /**
@@ -83,6 +84,8 @@ public abstract class CrudView<T extends Record> extends GenericView {
             private final HBox actions = new HBox(8, editButton, deleteButton);
 
             {
+                actions.setAlignment(Pos.CENTER);
+
                 editButton.getStyleClass().add("table-edit-button");
                 deleteButton.getStyleClass().add("table-delete-button");
 

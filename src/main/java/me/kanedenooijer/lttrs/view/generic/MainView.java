@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import me.kanedenooijer.lttrs.type.NotificationType;
 import me.kanedenooijer.lttrs.view.LoginView;
-import me.kanedenooijer.lttrs.view.component.NotificationComponent;
+import me.kanedenooijer.lttrs.view.notification.NotificationComponent;
 
 /**
  * Root view of the application, acts as a singleton StackPane that
