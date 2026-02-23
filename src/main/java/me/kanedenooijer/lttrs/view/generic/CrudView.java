@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Abstract base view for any CRUD-based view.
- * Subclasses define the title, columns, dialog, and DAO to use.
+ * Subclasses define the title, columns, dialog, and how to handle entities.
  *
  * @param <T> the entity type being managed
  */
@@ -38,10 +38,6 @@ public abstract class CrudView<T extends Record> extends GenericView {
         this.centerPane.getChildren().add(content);
 
         items.setAll(dao.findAll());
-    }
-
-    protected GenericDao<T> getDao() {
-        return dao;
     }
 
     /**
@@ -112,7 +108,7 @@ public abstract class CrudView<T extends Record> extends GenericView {
     private void openDialog(T existing) {
         buildDialog(existing).showAndWait().ifPresent(result -> {
             if (existing == null) {
-                getDao().create(applyAccountId(result)).ifPresentOrElse(
+                dao.create(applyAccountId(result)).ifPresentOrElse(
                         created -> {
                             items.add(created);
                             MainView.getInstance().showNotification(NotificationType.SUCCESS, getTitle() + " added successfully.");
@@ -121,7 +117,7 @@ public abstract class CrudView<T extends Record> extends GenericView {
                 );
             } else {
                 T updated = mergeForUpdate(existing, result);
-                if (getDao().update(updated)) {
+                if (dao.update(updated)) {
                     items.set(items.indexOf(existing), updated);
                     MainView.getInstance().showNotification(NotificationType.SUCCESS, getTitle() + " updated successfully.");
                 } else {
@@ -137,7 +133,7 @@ public abstract class CrudView<T extends Record> extends GenericView {
      * @param item the item to delete
      */
     private void deleteItem(T item) {
-        if (getDao().delete(getId(item))) {
+        if (dao.delete(getId(item))) {
             items.remove(item);
             MainView.getInstance().showNotification(NotificationType.SUCCESS, getTitle() + " deleted.");
         } else {
@@ -145,43 +141,16 @@ public abstract class CrudView<T extends Record> extends GenericView {
         }
     }
 
-    /**
-     * The display title used for the card header and notifications.
-     */
     protected abstract String getTitle();
 
-    /**
-     * The table columns to display, excluding the actions column.
-     */
     protected abstract List<TableColumn<T, ?>> buildColumns();
 
-    /**
-     * Builds the dialog for adding or editing an item.
-     *
-     * @param existing the item to edit, or null to add a new one
-     */
     protected abstract Dialog<T> buildDialog(T existing);
 
-    /**
-     * Returns the ID of the given item for deletion.
-     *
-     * @param item the item to get the ID of
-     */
     protected abstract int getId(T item);
 
-    /**
-     * Returns the result with the correct account ID applied before creation.
-     *
-     * @param result the result from the dialog
-     */
     protected abstract T applyAccountId(T result);
 
-    /**
-     * Merges the original item's identity fields with the edited result before updating.
-     *
-     * @param existing the original item
-     * @param result   the result from the dialog
-     */
     protected abstract T mergeForUpdate(T existing, T result);
 
 }

@@ -3,7 +3,6 @@ package me.kanedenooijer.lttrs.view;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
-import me.kanedenooijer.lttrs.database.dao.GenericDao;
 import me.kanedenooijer.lttrs.database.dao.LeaveDao;
 import me.kanedenooijer.lttrs.database.entity.Leave;
 import me.kanedenooijer.lttrs.model.AccountSession;
@@ -28,11 +27,6 @@ public final class LeavesView extends CrudView<Leave> {
     @Override
     protected String getTitle() {
         return "Leave";
-    }
-
-    @Override
-    protected GenericDao<Leave> getDao() {
-        return leaveDao;
     }
 
     @Override

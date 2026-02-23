@@ -18,12 +18,7 @@ public final class RegistrationDialog extends CrudDialog<Registration> {
     private DatePicker datePicker;
 
     public RegistrationDialog(Registration existing) {
-        super(existing);
-    }
-
-    @Override
-    protected String getEntityName() {
-        return "Registration";
+        super(existing, "Registration");
     }
 
     @Override

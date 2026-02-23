@@ -16,10 +16,10 @@ import java.util.List;
  */
 public abstract class CrudDialog<T> extends Dialog<T> {
 
-    public CrudDialog(T existing) {
+    public CrudDialog(T existing, String entityName) {
         boolean isEdit = existing != null;
 
-        this.setTitle(isEdit ? "Edit " + getEntityName() : "Add " + getEntityName());
+        this.setTitle(isEdit ? "Edit " + entityName : "Add " + entityName);
 
         ButtonType saveButtonType = new ButtonType(isEdit ? "Save" : "Add", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
@@ -33,8 +33,6 @@ public abstract class CrudDialog<T> extends Dialog<T> {
 
         this.setResultConverter(button -> button == saveButtonType ? buildResult() : null);
     }
-
-    protected abstract String getEntityName();
 
     protected abstract List<Node> buildFields();
 
