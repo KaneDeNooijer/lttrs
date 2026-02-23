@@ -17,13 +17,15 @@ import java.util.Objects;
  */
 public abstract class GenericView extends BorderPane {
 
-    protected StackPane centerPane;
+    /**
+     * The center pane where specific view content is displayed.
+     */
+    protected StackPane center;
 
     public GenericView() {
-        this.setTop(buildNavbar());
-        this.setLeft(buildSidebar());
-        this.centerPane = buildCenter();
-        this.setCenter(this.centerPane);
+        this.setTop(this.buildNavbar());
+        this.setLeft(this.buildSidebar());
+        this.setCenter(this.center = this.buildCenter());
         this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/generic.css")).toExternalForm());
     }
 
@@ -31,51 +33,43 @@ public abstract class GenericView extends BorderPane {
      * Builds the navbar containing the logo and account button.
      */
     private HBox buildNavbar() {
-        HBox navbar = new HBox();
-        navbar.setId("navbar");
+        HBox parent = new HBox();
+        parent.setId("navbar");
 
         ImageView logo = buildIcon("/me/kanedenooijer/lttrs/image/logo-white.png", 200, 200);
 
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        navbar.getChildren().addAll(logo, spacer, buildAccountButton());
-
-        return navbar;
-    }
-
-    /**
-     * Builds the account button showing the user's full name and initials.
-     * Clicking it navigates to the dashboard.
-     */
-    private Button buildAccountButton() {
         Label initials = new Label(AccountSession.getAccount().initials());
-        initials.setId("account-initials");
+        initials.getStyleClass().add("initials");
 
         Label fullName = new Label(AccountSession.getAccount().fullName());
         fullName.setGraphic(initials);
         fullName.setContentDisplay(ContentDisplay.RIGHT);
 
-        Button accountButton = new Button();
-        accountButton.setGraphic(fullName);
-        accountButton.setId("account-button");
-        accountButton.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
+        Button button = new Button();
+        button.setGraphic(fullName);
+        button.getStyleClass().add("button");
+        button.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
 
-        return accountButton;
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        parent.getChildren().addAll(logo, spacer, button);
+
+        return parent;
     }
 
     /**
      * Builds the sidebar containing navigation items and a logout button.
      */
     private VBox buildSidebar() {
-        VBox sidebar = new VBox();
-        sidebar.setId("sidebar");
+        VBox parent = new VBox();
+        parent.setId("sidebar");
 
-        Button dashboardItem = createSidebarItem("/me/kanedenooijer/lttrs/image/dashboard.png", "Dashboard");
-        Button contractItem = createSidebarItem("/me/kanedenooijer/lttrs/image/notebook.png", "Contracts");
-        Button hourRegistrationItem = createSidebarItem("/me/kanedenooijer/lttrs/image/calendar.png", "Registrations");
-        Button leaveItem = createSidebarItem("/me/kanedenooijer/lttrs/image/baggage.png", "Leaves");
-        Button logoutItem = createSidebarItem("/me/kanedenooijer/lttrs/image/arrow-left.png", "Log out");
+        Button dashboardItem = this.createSidebarItem("/me/kanedenooijer/lttrs/image/dashboard.png", "Dashboard");
+        Button contractItem = this.createSidebarItem("/me/kanedenooijer/lttrs/image/notebook.png", "Contracts");
+        Button hourRegistrationItem = this.createSidebarItem("/me/kanedenooijer/lttrs/image/calendar.png", "Registrations");
+        Button leaveItem = this.createSidebarItem("/me/kanedenooijer/lttrs/image/baggage.png", "Leaves");
+        Button logoutItem = this.createSidebarItem("/me/kanedenooijer/lttrs/image/arrow-left.png", "Log out");
 
         dashboardItem.setOnAction(_ -> MainView.getInstance().switchView(new DashboardView()));
         contractItem.setOnAction(_ -> MainView.getInstance().switchView(new ContractsView()));
@@ -83,16 +77,26 @@ public abstract class GenericView extends BorderPane {
         leaveItem.setOnAction(_ -> MainView.getInstance().switchView(new LeavesView()));
         logoutItem.setOnAction(_ -> {
             AccountSession.logout();
-            MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged out.");
             MainView.getInstance().switchView(new LoginView());
+            MainView.getInstance().showNotification(NotificationType.SUCCESS, "You have been successfully logged out.");
         });
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        sidebar.getChildren().addAll(dashboardItem, contractItem, hourRegistrationItem, leaveItem, spacer, logoutItem);
+        parent.getChildren().addAll(dashboardItem, contractItem, hourRegistrationItem, leaveItem, spacer, logoutItem);
 
-        return sidebar;
+        return parent;
+    }
+
+    /**
+     * Builds the center pane which will be populated by specific views.
+     */
+    private StackPane buildCenter() {
+        StackPane parent = new StackPane();
+        parent.setId("center");
+
+        return parent;
     }
 
     /**
@@ -102,10 +106,10 @@ public abstract class GenericView extends BorderPane {
      * @param text     label text shown next to the icon
      */
     private Button createSidebarItem(String iconPath, String text) {
-        Button button = new Button(text, buildIcon(iconPath, 32, 32));
-        button.getStyleClass().add("sidebar-item");
+        Button parent = new Button(text, buildIcon(iconPath, 32, 32));
+        parent.getStyleClass().add("sidebar-item");
 
-        return button;
+        return parent;
     }
 
     /**
@@ -122,13 +126,6 @@ public abstract class GenericView extends BorderPane {
         icon.setPreserveRatio(true);
 
         return icon;
-    }
-
-    private StackPane buildCenter() {
-        StackPane center = new StackPane();
-        center.setId("center");
-
-        return center;
     }
 
 }

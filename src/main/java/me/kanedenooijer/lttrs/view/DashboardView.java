@@ -31,7 +31,7 @@ public final class DashboardView extends GenericView {
 
         content.getChildren().addAll(buildWelcomeCard(), buildWorkloadCard());
 
-        this.centerPane.getChildren().add(content);
+        this.center.getChildren().add(content);
         this.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/me/kanedenooijer/lttrs/style/dashboard.css")).toExternalForm());
     }
 

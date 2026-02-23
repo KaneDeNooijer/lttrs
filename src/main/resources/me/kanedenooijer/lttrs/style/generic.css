@@ -1,9 +1,5 @@
 @import "main.css";
 
-#center {
-    -fx-padding: 20px;
-}
-
 #navbar {
     -fx-background-color: -fx-primary-600;
     -fx-padding: 20px;
@@ -18,13 +14,13 @@
     -fx-graphic-text-gap: 10px;
 }
 
-#account-button {
+#navbar .button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-cursor: hand;
 }
 
-#account-initials {
+#navbar .initials {
     -fx-background-color: -fx-primary-400;
     -fx-border-color: -fx-primary-200;
     -fx-background-radius: 10px;
@@ -50,4 +46,8 @@
     -fx-text-fill: -fx-white;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
+}
+
+#center {
+    -fx-padding: 20px;
 }

@@ -35,7 +35,7 @@ public abstract class CrudView<T extends Record> extends GenericView {
         content.getChildren().add(tableCard);
         VBox.setVgrow(content, Priority.ALWAYS);
 
-        this.centerPane.getChildren().add(content);
+        this.center.getChildren().add(content);
 
         items.setAll(dao.findAll());
     }
