@@ -1,0 +1,29 @@
+#notification {
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 20, 0, 5, 5);
+}
+
+#notification.success {
+    -fx-background-color: #22c55e;
+}
+
+#notification.warning {
+    -fx-background-color: #f59e0b;
+}
+
+#notification.error {
+    -fx-background-color: #ef4444;
+}
+
+#notification Label,
+#notification Button {
+    -fx-text-fill: -fx-white;
+}
+
+#notification #notification-dismiss {
+    -fx-background-color: transparent;
+    -fx-underline: true;
+}

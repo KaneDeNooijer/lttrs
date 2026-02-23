@@ -1,6 +1,7 @@
 module me.kanedenooijer.lttrs {
     requires javafx.controls;
+    requires java.sql;
 
-    opens me.kanedenooijer.lttrs to javafx.fxml;
     exports me.kanedenooijer.lttrs;
+    opens me.kanedenooijer.lttrs;
 }

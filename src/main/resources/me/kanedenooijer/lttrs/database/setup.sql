@@ -1,0 +1,52 @@
+DROP DATABASE IF EXISTS `lttrs`;
+CREATE DATABASE IF NOT EXISTS `lttrs`;
+USE `lttrs`;
+
+-- Accounts table to store user information.
+CREATE TABLE IF NOT EXISTS `accounts`
+(
+    `id`        INT                    NOT NULL AUTO_INCREMENT,
+    `full_name` VARCHAR(255)           NOT NULL,
+    `email`     VARCHAR(255)           NOT NULL,
+    `password`  VARCHAR(255)           NOT NULL,
+    `role`      ENUM ('user', 'admin') NOT NULL DEFAULT 'user',
+    PRIMARY KEY (`id`),
+    CONSTRAINT `uq_accounts_email` UNIQUE (`email`)
+);
+
+-- Contracts table to store information about the user's contract.
+CREATE TABLE IF NOT EXISTS `contracts`
+(
+    `id`         INT  NOT NULL AUTO_INCREMENT,
+    `account_id` INT  NOT NULL,
+    `hours`      INT  NOT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date`   DATE NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_contracts_accounts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE,
+    INDEX `idx_contracts_dates` (`start_date`, `end_date`)
+);
+
+-- Leaves table to store absence information.
+CREATE TABLE IF NOT EXISTS `leaves`
+(
+    `id`         INT  NOT NULL AUTO_INCREMENT,
+    `account_id` INT  NOT NULL,
+    `start_date` DATE NOT NULL,
+    `end_date`   DATE NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_leaves_accounts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE,
+    INDEX `idx_leaves_dates` (`start_date`, `end_date`)
+);
+
+-- Registrations table to store the amount of hours worked on a specific date.
+CREATE TABLE IF NOT EXISTS `registrations`
+(
+    `id`         INT  NOT NULL AUTO_INCREMENT,
+    `account_id` INT  NOT NULL,
+    `hours`      INT  NOT NULL,
+    `date`       DATE NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_registrations_accounts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE,
+    INDEX `idx_registrations_date` (`date`)
+);

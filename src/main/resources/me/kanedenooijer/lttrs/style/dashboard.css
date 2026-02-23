@@ -1,0 +1,27 @@
+#dashboard-name {
+    -fx-text-fill: -fx-primary-500;
+}
+
+#dashboard-no-contract {
+    -fx-text-fill: -fx-secondary-500;
+}
+
+#workload-meter {
+    -fx-pref-height: 20px;
+    -fx-background-radius: 10px;
+}
+
+#workload-meter.workload-low .bar {
+    -fx-background-color: #22c55e;
+    -fx-background-radius: 10px;
+}
+
+#workload-meter.workload-medium .bar {
+    -fx-background-color: #f59e0b;
+    -fx-background-radius: 10px;
+}
+
+#workload-meter.workload-high .bar {
+    -fx-background-color: #ef4444;
+    -fx-background-radius: 10px;
+}

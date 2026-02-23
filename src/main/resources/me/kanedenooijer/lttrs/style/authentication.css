@@ -1,0 +1,25 @@
+#view {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 75%, -fx-primary-500, -fx-primary-900);
+    -fx-alignment: center;
+}
+
+#form {
+    -fx-background-color: -fx-white;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 20, 0, 5, 5);
+}
+
+#form Label {
+    -fx-font-weight: bold;
+}
+
+#form .secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-black;
+    -fx-underline: true;
+}
+
+#form .secondary-button:hover {
+    -fx-text-fill: -fx-primary-600;
+}

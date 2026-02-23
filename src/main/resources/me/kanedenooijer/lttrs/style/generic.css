@@ -1,0 +1,101 @@
+* {
+    -fx-white: white;
+    -fx-black: black;
+
+    -fx-primary-100: #e9eef5;
+    -fx-primary-200: #c9d7e8;
+    -fx-primary-300: #a8bfd8;
+    -fx-primary-400: #7e98bc;
+    -fx-primary-500: #4a6fa5;
+    -fx-primary-600: #3f6397;
+    -fx-primary-700: #344f7c;
+    -fx-primary-800: #2a3e61;
+    -fx-primary-900: #1d2b44;
+
+    -fx-secondary-100: #f4f4f4;
+    -fx-secondary-200: #e4e4e4;
+    -fx-secondary-300: #cfcfcf;
+    -fx-secondary-400: #afafaf;
+    -fx-secondary-500: #8e8e8e;
+    -fx-secondary-600: #6e6e6e;
+    -fx-secondary-700: #565656;
+    -fx-secondary-800: #3b3b3b;
+    -fx-secondary-900: #1f1f1f;
+}
+
+Label {
+    -fx-font-size: 16px;
+}
+
+TextField,
+PasswordField {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: -fx-black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+}
+
+TextField:focused,
+PasswordField:focused {
+    -fx-border-color: -fx-primary-600;
+    -fx-focus-color: -fx-primary-200;
+    -fx-faint-focus-color: -fx-primary-200;
+}
+
+Button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-background-color: -fx-primary-500;
+    -fx-text-fill: -fx-white;
+}
+
+Button:hover {
+    -fx-background-color: -fx-primary-600;
+}
+
+TableView {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+TableView .column-header-background {
+    -fx-background-color: -fx-primary-500;
+}
+
+TableView .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+TableView .column-header .label {
+    -fx-text-fill: -fx-white;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+TableView .arrow {
+    -fx-background-color: -fx-white;
+}
+
+TableView .table-row-cell {
+    -fx-background-color: -fx-white;
+    -fx-border-color: -fx-secondary-200;
+    -fx-border-width: 0 0 1 0;
+}
+
+TableView .table-row-cell:odd {
+    -fx-background-color: -fx-secondary-100;
+}
+
+TableView .table-row-cell:selected .table-cell {
+    -fx-text-fill: -fx-black;
+}
+
+TableView .table-cell {
+    -fx-border-color: transparent;
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+}
